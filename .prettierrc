@@ -1,0 +1,25 @@
+{
+  "useTabs": false,
+  "printWidth": 120,
+  "tabWidth": 2,
+  "embeddedLanguageFormatting": "auto",
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": ["*.html"],
+      "options": {
+        "bracketSameLine": false
+      }
+    },
+    {
+      "files": ["*.ts"],
+      "options": {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "semi": true,
+        "parser": "typescript",
+        "arrowParens": "avoid"
+      }
+    }
+  ]
+}
