@@ -4,6 +4,7 @@
   "tabWidth": 2,
   "embeddedLanguageFormatting": "auto",
   "singleQuote": true,
+  "endOfLine":"auto",
   "overrides": [
     {
       "files": ["*.html"],
