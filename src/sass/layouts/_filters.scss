@@ -1,0 +1,22 @@
+.filters {
+  width: 25%;
+  border: solid black 1px;
+  padding: 40px 20px;
+}
+
+.filter {
+  width: 100%;
+
+  &__title {
+    @include font(1.8rem, 2rem, 500);
+  }
+
+  &__slider {
+    display: block;
+    padding-top: 30px;
+    font-size: 1.8rem;
+  }
+}
+
+.price-filter {
+}

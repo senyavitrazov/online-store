@@ -1,0 +1,20 @@
+%transition {
+  transition: all .3s ease-out;
+}
+
+%font-prim {
+  font-family: 'Inter', sans-serif;
+}
+
+%icon-circle {
+  background-size: 55% 55%;
+  background-position: center center;
+  background-repeat: no-repeat  ;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+%font-add {
+  // font-family: 'Inter', sans-serif;
+}
