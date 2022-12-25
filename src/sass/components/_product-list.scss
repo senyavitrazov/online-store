@@ -1,0 +1,13 @@
+.product-list {
+  flex-basis: 76%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  >* {
+    flex-basis: 23%;
+  }
+}
+
+product-card {
+  margin-bottom: 30px;
+}
