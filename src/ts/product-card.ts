@@ -65,7 +65,7 @@ export class ProductCard extends HTMLElement {
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (name === 'src') {
-      const product = dataExample.products[+newValue]; //TODO : Product
+      const product: Product = dataExample.products[+newValue];
       this.shadowRoot?.querySelector('.product-card__image')?.setAttribute('src', product.images[0]);
 
       const descriptionList = this.shadowRoot?.querySelector('.product-card__description');
@@ -77,12 +77,14 @@ export class ProductCard extends HTMLElement {
       const price = this.shadowRoot?.querySelector('.product-card__price');
       const oldPrice = this.shadowRoot?.querySelector('.product-card__oldprice');
 
-      if (price) price.innerHTML = product.price;
-      if (oldPrice) oldPrice.innerHTML = '' + product.price * (100 + product.discountPercentage); // TODO percents
-
+      if (price) price.innerHTML = '$' + product.price.toFixed(2);
+      if (oldPrice) {
+        oldPrice.innerHTML = '$' + ((product.price / (100 - product.discountPercentage)) * 100).toFixed(2);
+      }
       if (descriptionList) {
         for (let i = 0; i < fields.length; i++) {
-          descriptionList.innerHTML += `<li><span>${fields[i]}: </span>${product[fields[i]]}</li>`;
+          descriptionList.innerHTML += `<li><span>${fields[i]}: </span>
+          ${product[fields[i] as keyof typeof product]}</li>`;
         }
       }
     }
