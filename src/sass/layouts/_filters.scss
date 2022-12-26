@@ -19,6 +19,7 @@
 }
 
 .checkbox__title {
+  display: block;
   text-align: center;
   @include font(1.8rem, 2rem, 500);
   margin-top: 20px;
@@ -57,7 +58,7 @@
 
 .checkbox-filter::-webkit-scrollbar-thumb {
   border-radius: 8px;
-  background: red;
+  background: red;  
 }
 
 .price-filter {

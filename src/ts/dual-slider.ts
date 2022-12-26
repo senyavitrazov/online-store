@@ -65,15 +65,12 @@ export class DualSlider extends HTMLElement {
     }
 
     if (sliderOne && sliderTwo) {
+      slideOne();
+      slideTwo();
       sliderOne.oninput = slideOne;
       sliderTwo.oninput = slideTwo;
     } else {
       console.log(sliderOne);
     }
-
-    window.onload = function () {
-      slideOne();
-      slideTwo();
-    };
   }
 }

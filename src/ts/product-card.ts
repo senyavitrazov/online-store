@@ -1,7 +1,7 @@
 import styles from '../sass/components/card.styles.scss';
 import dataExample from '../assets/data-exapmle.json';
 
- export type Product = {
+export type Product = {
   id: number;
   title: string;
   description: string;
@@ -16,6 +16,7 @@ import dataExample from '../assets/data-exapmle.json';
 };
 
 const fields = ['category', 'brand', 'rating', 'stock'];
+const MAX_LENGTH_OF_TITLE = 33;
 
 export class ProductCard extends HTMLElement {
   constructor() {
@@ -71,7 +72,13 @@ export class ProductCard extends HTMLElement {
       const descriptionList = this.shadowRoot?.querySelector('.product-card__description');
       const name = this.shadowRoot?.querySelector('.product-card__name');
 
-      if (name) name.innerHTML = product.title;
+      if (name) {
+        const title =
+          product.title.length > MAX_LENGTH_OF_TITLE
+            ? product.title.slice(0, MAX_LENGTH_OF_TITLE).trim() + '...'
+            : product.title;
+        name.innerHTML = title;
+      }
       descriptionList?.insertAdjacentHTML('afterbegin', `<p class="product-card__text">${product['description']}</p>`);
 
       const price = this.shadowRoot?.querySelector('.product-card__price');
