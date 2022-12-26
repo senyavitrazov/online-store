@@ -1,7 +1,7 @@
 import styles from '../sass/components/card.styles.scss';
 import dataExample from '../assets/data-exapmle.json';
 
-type Product = {
+ export type Product = {
   id: number;
   title: string;
   description: string;

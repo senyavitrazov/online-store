@@ -18,5 +18,47 @@
   }
 }
 
+.checkbox__title {
+  text-align: center;
+  @include font(1.8rem, 2rem, 500);
+  margin-top: 20px;
+}
+
+.checkbox-filter {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-top: 20px;
+  height: 200px;
+  overflow-x: hidden;
+
+  .checkbox-input {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 2%;
+    padding: 5px 10px;
+    accent-color: red;
+
+    .filter-label {
+      @include font(1.8rem, 1rem, 400);
+    }
+
+    .filtered-value {
+      margin-left: auto;
+    }
+  }
+}
+
+.checkbox-filter::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 8px;
+}
+
+.checkbox-filter::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: red;
+}
+
 .price-filter {
 }
