@@ -16,11 +16,8 @@ export class Checkbox {
       <label for="${item}" class="filter-label"></label>
       <span class="filtered-value">(5/5)</span>
       </div>`;
-      const checkboxClone = template?.content.cloneNode(true);
-      let checkboxTitle: HTMLLabelElement | null = null;
-      if (checkboxClone instanceof HTMLLabelElement) {
-        checkboxTitle = checkboxClone.querySelector('.filter-label');
-      }
+      const checkboxClone = <HTMLElement>template?.content.cloneNode(true);
+      const checkboxTitle: HTMLLabelElement | null = checkboxClone.querySelector('.filter-label');
       if (checkboxTitle) checkboxTitle.textContent = `${item}`;
       fragment.append(checkboxClone);
     });
