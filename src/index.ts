@@ -1,7 +1,8 @@
 import { DualSlider } from './ts/dual-slider';
 import { ProductCard, Product } from './ts/product-card';
 import { Checkbox } from './ts/checkbox-filter';
-import dataExample from './assets/data-exapmle.json';
+import dataExample from './assets/data-exapmle.json'; 
+import  './ts/about-SPA';
 
 class App {
   productList = document.querySelector('.product-list');
