@@ -69,6 +69,10 @@
   background-color: white;
   cursor: pointer;
 
+  &:hover { 
+    background: #f2f2f2;
+  }
+  
   &::before {
     content: '';
     cursor: pointer;
