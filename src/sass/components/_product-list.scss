@@ -1,5 +1,4 @@
 .product-list {
-  flex-basis: 76%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -8,6 +7,10 @@
   }
 }
 
+
+.products {
+  flex-basis: 76%;
+}
 product-card {
   margin-bottom: 30px;
 }

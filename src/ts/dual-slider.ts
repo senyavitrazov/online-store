@@ -18,11 +18,9 @@ export class DualSlider extends HTMLElement {
       symbolOfValue = '$';
       this.limitsOfValues.left = data.reduce((acc, curr) => (acc.price < curr.price ? acc : curr)).price;
       this.limitsOfValues.right = data.reduce((acc, curr) => (acc.price > curr.price ? acc : curr)).price;
-      console.log(this.limitsOfValues);
     } else {
       this.limitsOfValues.left = data.reduce((acc, curr) => (acc.stock < curr.stock ? acc : curr)).stock;
       this.limitsOfValues.right = data.reduce((acc, curr) => (acc.stock > curr.stock ? acc : curr)).stock;
-      console.log(this.limitsOfValues);
     }
 
     const MIN_GAP: number = (this.limitsOfValues.right - this.limitsOfValues.left) / 100;
