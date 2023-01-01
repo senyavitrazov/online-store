@@ -1,6 +1,11 @@
 import styles from '../sass/components/dualslider.styles.scss';
+import dataExample from '../assets/data-exapmle.json';
+import { Product } from './product-card';
+
+const data: Product[] = dataExample.products;
 
 export class DualSlider extends HTMLElement {
+  limitsOfValues: { left: number; right: number } = { left: 0, right: 100 };
   constructor() {
     super();
     const template = document.createElement('template');
@@ -8,16 +13,32 @@ export class DualSlider extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = styles;
 
+    let symbolOfValue = '';
+    if (this.attributes['type' as keyof typeof this.attributes]) {
+      symbolOfValue = '$';
+      this.limitsOfValues.left = data.reduce((acc, curr) => (acc.price < curr.price ? acc : curr)).price;
+      this.limitsOfValues.right = data.reduce((acc, curr) => (acc.price > curr.price ? acc : curr)).price;
+    } else {
+      this.limitsOfValues.left = data.reduce((acc, curr) => (acc.stock < curr.stock ? acc : curr)).stock;
+      this.limitsOfValues.right = data.reduce((acc, curr) => (acc.stock > curr.stock ? acc : curr)).stock;
+    }
+
+    const MIN_GAP: number = (this.limitsOfValues.right - this.limitsOfValues.left) / 100;
+
     template.innerHTML = `
     <div class="wrapper">
       <div class="values">
-        <span id="range1">0</span>
-        <span id="range2">1000</span>
+        <span id="range1"></span>
+        <span id="range2"></span>
       </div>
       <div class="container">
         <div class="slider-track"></div>
-        <input type="range" min="0" value="200" max="1000" id="slider-1"></input>
-        <input type="range" min="0" value="800" max="1000" id="slider-2"></input>
+        <input type="range" min="${this.limitsOfValues.left}" value="${this.limitsOfValues.left + 20 * MIN_GAP}" max="${
+      this.limitsOfValues.right
+    }" id="slider-1"></input>
+        <input type="range" min="${this.limitsOfValues.left}" value="${
+      this.limitsOfValues.right - 20 * MIN_GAP
+    }" max="${this.limitsOfValues.right}" id="slider-2"></input>
       </div>
     </div>
     `;
@@ -31,8 +52,6 @@ export class DualSlider extends HTMLElement {
     const displayValTwo = shadow.getElementById('range2');
     const sliderTrack = shadow.querySelector('.slider-track');
     const sliderMaxValue = sliderOne instanceof HTMLInputElement ? sliderOne.max : null;
-
-    const MIN_GAP = 50;
 
     function fillColor() {
       if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement && sliderMaxValue !== null) {
@@ -49,7 +68,7 @@ export class DualSlider extends HTMLElement {
         if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= MIN_GAP) {
           sliderOne.value = `${parseInt(sliderTwo.value) - MIN_GAP}`;
         }
-        if (displayValOne) displayValOne.textContent = sliderOne.value;
+        if (displayValOne) displayValOne.textContent = symbolOfValue + sliderOne.value;
         fillColor();
       }
     }
@@ -59,7 +78,7 @@ export class DualSlider extends HTMLElement {
         if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= MIN_GAP) {
           sliderTwo.value = `${parseInt(sliderOne.value) + MIN_GAP}`;
         }
-        if (displayValTwo) displayValTwo.textContent = sliderTwo.value;
+        if (displayValTwo) displayValTwo.textContent = symbolOfValue + sliderTwo.value;
         fillColor();
       }
     }
@@ -72,5 +91,21 @@ export class DualSlider extends HTMLElement {
     } else {
       console.log(sliderOne);
     }
+  }
+
+  static get observedAttributes() {
+    return ['type'];
+  }
+
+  set type(val) {
+    if (val == null) {
+      this.removeAttribute('type');
+    } else {
+      this.setAttribute('type', val);
+    }
+  }
+
+  get type() {
+    return this.getAttribute('type');
   }
 }
