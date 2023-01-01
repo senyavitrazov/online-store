@@ -1,8 +1,9 @@
 import { DualSlider } from './ts/dual-slider';
 import { ProductCard, Product } from './ts/product-card';
 import { Checkbox } from './ts/checkbox-filter';
-import dataExample from './assets/data-exapmle.json';
 import { SortSelect } from './ts/sort-select';
+import dataExample from './assets/data-exapmle.json'; 
+import  './ts/about-SPA';
 
 const checkbox = new Checkbox();
 
@@ -46,7 +47,12 @@ class App {
       i++;
       this.productList.innerHTML += `<product-card src="${i}"></product-card>`;
     }
+  //checkbox-filters
+  const checkbox = new Checkbox();
+  checkbox.drawcheckboxCategories();
+  checkbox.drawcheckboxBrand();
   }
+  
 }
 
 new App();
