@@ -69,8 +69,8 @@
   background-color: white;
   cursor: pointer;
 
-  &:hover { 
-    background: #f2f2f2;
+  &.active {
+    filter: brightness(92%);
   }
   
   &::before {

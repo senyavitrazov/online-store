@@ -1,6 +1,16 @@
 import styles from '../sass/components/sortselect.styles.scss';
 
 export class SortSelect extends HTMLElement {
+  reverseFlag = false;
+  sortingField = 0;
+
+  changeUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const sortCode = `${this.sortingField}` + Number(this.reverseFlag);
+    params.set('sort', sortCode);
+    window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+  }
+
   constructor() {
     super();
     const template = document.createElement('template');
@@ -28,6 +38,13 @@ export class SortSelect extends HTMLElement {
 
     const selectHeader = shadow.querySelectorAll('.select__header');
     const selectItem = shadow.querySelectorAll('.select__item');
+    const reverseButton = shadow.getElementById('reverse-storing');
+
+    reverseButton?.addEventListener('click', () => {
+      this.reverseFlag = !this.reverseFlag;
+      reverseButton.classList.toggle('active');
+      this.changeUrl();
+    });
 
     selectHeader.forEach(item => {
       if (item instanceof HTMLElement) {
@@ -48,6 +65,8 @@ export class SortSelect extends HTMLElement {
             if (currentText instanceof HTMLElement) currentText.innerText = text;
             select.classList.remove('is-active');
           }
+          this.sortingField = +(item.getAttribute('data-sorting') || 0);
+          this.changeUrl();
         });
       }
     });

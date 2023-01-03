@@ -6,6 +6,14 @@ const data: Product[] = dataExample.products;
 
 export class DualSlider extends HTMLElement {
   limitsOfValues: { left: number; right: number } = { left: 0, right: 100 };
+
+  changeUrl(type: string | null, l: string, r: string) {
+    const params = new URLSearchParams(window.location.search);
+    const limits = 'l' + l + 'r' + r;
+    params.set(`ds${type ? 'p' : 'a'}`, limits);
+    window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+  }
+
   constructor() {
     super();
     const template = document.createElement('template');
@@ -53,15 +61,16 @@ export class DualSlider extends HTMLElement {
     const sliderTrack = shadow.querySelector('.slider-track');
     const sliderMaxValue = sliderOne instanceof HTMLInputElement ? sliderOne.max : null;
 
-    function fillColor() {
+    const fillColor = () => {
       if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement && sliderMaxValue !== null) {
         const percent1: number = (+sliderOne.value / +sliderMaxValue) * 100;
         const percent2: number = (+sliderTwo.value / +sliderMaxValue) * 100;
         if (sliderTrack instanceof HTMLDivElement) {
           sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #ff0000 ${percent1}% , #ff0000 ${percent2}%, #dadae5 ${percent2}%)`;
         }
+        this.changeUrl(symbolOfValue, sliderOne.value, sliderTwo.value);
       }
-    }
+    };
 
     function slideOne() {
       if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement) {
