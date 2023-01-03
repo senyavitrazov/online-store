@@ -25,7 +25,7 @@ if (aboutstr) about = JSON.parse(aboutstr);
 function createTemplate(product: Product): string {
   let imagesstr = '';
   product.images.forEach((el: string) => {
-    imagesstr += `<img alt="Slide" src=${el}>`;
+    imagesstr += `<img alt="Slide" class="picture-small" src=${el}>`;
   });
   const template = `<div class="about__product">
   <div class="product__title">
@@ -84,6 +84,16 @@ const urlRoutes = {
   '/about': about,
 };
 const maincontent: HTMLElement | null = document.querySelector('main');
+maincontent?.addEventListener('click', (e: Event) => {
+  const targetPicture = <HTMLElement>e.target;
+  if (!targetPicture.matches('.picture-small')) {
+    return;
+  }
+  e.preventDefault();
+  const src: string | null = targetPicture.getAttribute('src');
+  const bigPicture: HTMLDivElement | null = document.querySelector('.about__images-big');
+  if (bigPicture) bigPicture.innerHTML = `<img alt="Slide" src=${src}>`;
+});
 const urlRoute = (itemsrc: string): void => {
   window.history.pushState({}, '', window.location.origin + `/about/${itemsrc}`);
   if (maincontent) maincontent.innerHTML = createTemplate(dataExample.products[itemsrc]);

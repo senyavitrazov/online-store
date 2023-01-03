@@ -65,7 +65,7 @@ export class Checkbox {
     });
   }
   filterProdducts(filterinput: string[]): void {
-    const productList: HTMLElement | null = document.querySelector('.product-list');
+    const productList: Element | null = document.querySelectorAll('.product-list')[1];
     let mixed = false;
     let categories = 0;
     let brands = 0;

@@ -26,8 +26,12 @@ $borderval: 1px solid $value;
         width: 25%;
         img {
           margin-top: 10px;
+          max-height: 10vh;
           width: 80%;
           border: $borderval;
+        }
+        img:hover {
+          transform: scale(1.3);
         }
       }
       .about__images-big {
@@ -59,10 +63,13 @@ $borderval: 1px solid $value;
     .about__price {
       display: flex;
       align-items: center;
+      width: 15%;
       .about__price-cart {
         display: flex;
+        width: 100%;
         flex-direction: column;
         gap: 10px;
+        align-items: center;
         p {
           margin: 0;
           font-size: 200%;
@@ -70,11 +77,20 @@ $borderval: 1px solid $value;
           text-shadow: 0 0 10px rgb(184 24 24), 0 0 20px red, 0 0 30px red, 0 0 40px red;
         }
         button {
+          width: 100%;
+          height: 35px;
           background: #9a3535;
           color: wheat;
-          border: 2px solid orange;
+          border: 2px solid $value;
           border-radius: 0.3rem;
           cursor: pointer;
+        }
+        button:hover {
+          background: yellow;
+          color: red;
+        }
+        button:active {
+          background: green;
         }
       }
     }
