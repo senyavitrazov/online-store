@@ -63,6 +63,7 @@ class App {
     const checkbox = new Checkbox();
     checkbox.drawcheckboxCategories();
     checkbox.drawcheckboxBrand();
+    checkbox.filteredValue(dataExample.products);
   }
 }
 

@@ -14,7 +14,7 @@ export class Checkbox {
       template.innerHTML = `<div class="checkbox-input">
       <input id="${item}" name="category-input" type="checkbox">
       <label for="${item}" class="filter-label"></label>
-      <span class="filtered-value">(5/5)</span>
+      <span class="filtered-value" id="filtered-value-for-${item}">0</span>
       </div>`;
       const checkboxClone = <HTMLElement>template?.content.cloneNode(true);
       const checkboxTitle: HTMLLabelElement | null = checkboxClone.querySelector('.filter-label');
@@ -45,7 +45,7 @@ export class Checkbox {
       template.innerHTML = `<div class="checkbox-input">
         <input id="${item}" name="brand-input" type="checkbox">
         <label for="${item}" class="filter-label"></label>
-        <span class="filtered-value">0</span>
+        <span class="filtered-value" id="filtered-value-for-${item}">0</span>
         </div>`;
       const checkboxClone = <HTMLElement>template?.content.cloneNode(true);
       const checkboxTitle: HTMLInputElement | null = checkboxClone.querySelector('.filter-label');
@@ -62,6 +62,25 @@ export class Checkbox {
         const filteredargs: string[] = Array.from(this.filterargs);
         this.filterProdducts(filteredargs);
       });
+    });
+  }
+  changeUrl(filterargs: string[]): void {
+    const params = new URLSearchParams(window.location.search);
+    let filters = '';
+    filterargs.map(el => (filters += `${el},`));
+    params.set('filters', filters);
+    window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+  }
+  filteredValue(productsData: Product[]): void {
+    const filteredvalues = document.querySelectorAll('.filtered-value');
+    filteredvalues.forEach(el => (el.innerHTML = '0'));
+    productsData.map(el => {
+      const filtervaluebrand: Element | null | undefined = document.getElementById(`filtered-value-for-${el.brand}`);
+      const filtervaluecategory: Element | null | undefined = document.getElementById(
+        `filtered-value-for-${el.category}`
+      );
+      if (filtervaluebrand) filtervaluebrand.innerHTML = (parseInt(filtervaluebrand.innerHTML) + 1).toString();
+      if (filtervaluecategory) filtervaluecategory.innerHTML = (parseInt(filtervaluecategory.innerHTML) + 1).toString();
     });
   }
   filterProdducts(filterinput: string[]): void {
@@ -111,5 +130,7 @@ export class Checkbox {
     ) {
       if (productList) productList.innerHTML = 'No Data Found';
     }
+    this.changeUrl(filterinput);
+    this.filteredValue(productsData);
   }
 }
