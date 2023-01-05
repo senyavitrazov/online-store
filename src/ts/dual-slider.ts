@@ -5,11 +5,12 @@ import { Product } from './product-card';
 const data: Product[] = dataExample.products;
 
 export class DualSlider extends HTMLElement {
-  limitsOfValues: { left: number; right: number } = { left: 0, right: 100 };
+  limitsOfValues: { left: number; right: number } = { left: 0, right: 0 };
+  oldValues: { left: number; right: number } = { left: 0, right: 0 };
 
   changeUrl(type: string | null, l: string, r: string) {
     const params = new URLSearchParams(window.location.search);
-    const limits = 'l' + l + 'r' + r;
+    const limits = l + 't' + r;
     params.set(`ds${type ? 'p' : 'a'}`, limits);
     window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
   }
@@ -20,6 +21,19 @@ export class DualSlider extends HTMLElement {
     const shadow = this.attachShadow({ mode: 'open' });
     const style = document.createElement('style');
     style.textContent = styles;
+
+    const params = new URLSearchParams(window.location.search);
+    let value = null;
+    if (this.attributes['type' as keyof typeof this.attributes]) {
+      value = params.get('dsp');
+    } else {
+      value = params.get('dsa');
+    }
+    if (value) {
+      this.oldValues.left = +value.slice(0, value.indexOf('t'));
+      this.oldValues.right = +value.slice(value.indexOf('t') + 1);
+      console.log(this.oldValues);
+    }
 
     let symbolOfValue = '';
     if (this.attributes['type' as keyof typeof this.attributes]) {
@@ -41,11 +55,11 @@ export class DualSlider extends HTMLElement {
       </div>
       <div class="container">
         <div class="slider-track"></div>
-        <input type="range" min="${this.limitsOfValues.left}" value="${this.limitsOfValues.left + 20 * MIN_GAP}" max="${
-      this.limitsOfValues.right
-    }" id="slider-1"></input>
         <input type="range" min="${this.limitsOfValues.left}" value="${
-      this.limitsOfValues.right - 20 * MIN_GAP
+      this.oldValues.left || this.limitsOfValues.left + 20 * MIN_GAP
+    }" max="${this.limitsOfValues.right}" id="slider-1"></input>
+        <input type="range" min="${this.limitsOfValues.left}" value="${
+      this.oldValues.right || this.limitsOfValues.right - 20 * MIN_GAP
     }" max="${this.limitsOfValues.right}" id="slider-2"></input>
       </div>
     </div>
@@ -97,6 +111,12 @@ export class DualSlider extends HTMLElement {
       slideTwo();
       sliderOne.oninput = slideOne;
       sliderTwo.oninput = slideTwo;
+      sliderOne.onchange = () => {
+        this.dispatchEvent(new Event('filterchange', { bubbles: true }));
+      };
+      sliderTwo.onchange = () => {
+        this.dispatchEvent(new Event('filterchange', { bubbles: true }));
+      };
     } else {
       console.log(sliderOne);
     }

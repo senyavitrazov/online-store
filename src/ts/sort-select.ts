@@ -1,5 +1,11 @@
 import styles from '../sass/components/sortselect.styles.scss';
 
+export enum SortingField {
+  'price',
+  'rating',
+  'discountPercentage',
+}
+
 export class SortSelect extends HTMLElement {
   reverseFlag = false;
   sortingField = 0;
@@ -9,6 +15,7 @@ export class SortSelect extends HTMLElement {
     const sortCode = `${this.sortingField}` + Number(this.reverseFlag);
     params.set('sort', sortCode);
     window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+    this.dispatchEvent(new Event('filterchange', { bubbles: true }));
   }
 
   constructor() {
@@ -18,11 +25,22 @@ export class SortSelect extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = styles;
 
+    const params = new URLSearchParams(window.location.search);
+    let oldValue = params.get('sort');
+    if (oldValue === null) {
+      oldValue = '00';
+      params.set('sort', '00');
+      window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+    }
+    let sortField = 0;
+    this.reverseFlag = !!(+oldValue % 10);
+    sortField = Math.floor(+oldValue / 10);
+
     template.innerHTML = `<div class="sort-container">
-    <button id="reverse-storing"></button>
+    <button id="reverse-storing" ${this.reverseFlag ? 'class="active"' : ''}></button>
     <div class="select">
       <div class="select__header">
-        <span class="select__current">sort by price</span>
+        <span class="select__current">sort by ${sortField === 2 ? 'discount' : SortingField[sortField]}</span>
         <img class="select__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true">
       </div>
       <div class="select__body">

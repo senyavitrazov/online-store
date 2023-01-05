@@ -67,7 +67,7 @@ export class Checkbox {
   changeUrl(filterargs: string[]): void {
     const params = new URLSearchParams(window.location.search);
     let filters = '';
-    filterargs.map(el => (filters += `${el},`));
+    filterargs.map(el => (filters += `${el}.`));
     params.set('filters', filters);
     window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
   }
