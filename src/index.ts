@@ -4,6 +4,7 @@ import { Checkbox } from './ts/checkbox-filter';
 import { SortSelect, SortingField } from './ts/sort-select';
 import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
+import { node } from 'webpack';
 
 const checkbox = new Checkbox();
 
@@ -18,6 +19,8 @@ class App {
   productsBlock = document.querySelector('.products');
   productList = document.querySelector('.product-list');
   searchText = '';
+  filtersBlock = '';
+  mainWithInner: Node | null = null;
 
   drawCards() {
     const params = new URLSearchParams(window.location.search);
@@ -46,7 +49,6 @@ class App {
         this.filteredProducts = this.filteredProducts.sort(
           (a, b) => +a[SortingField[sortField] as keyof Product] - +b[SortingField[sortField] as keyof Product]
         );
-        console.log(this.filteredProducts);
         if (reverseFlag) this.filteredProducts.reverse();
       }
       // if(key === 'filter')
@@ -71,6 +73,8 @@ class App {
     const oldSearch = params.get('search');
     this.searchText = oldSearch ? oldSearch : '';
 
+    this.filtersBlock = `<div class="filters"> <div class="filter price-filter"> <span class="filter__title">Price:</span> <dual-slider class="filter__slider" type="price"></dual-slider> </div> <div class="filter stock-filter"> <span class="filter__title">Stock:</span> <dual-slider class="filter__slider"></dual-slider> </div> <span class="checkbox__title">Category</span> <div class="checkbox-filter category-filter"></div> <span class="checkbox__title">Brand</span> <div class="checkbox-filter brand-filter"></div> <div class="filters__buttons"> <button id="copy-filters">copy filters</button> <button id="clear-filters"></button> </div> </div>`;
+
     window.customElements.define('dual-slider', DualSlider);
     window.customElements.define('product-card', ProductCard);
     window.customElements.define('sort-select', SortSelect);
@@ -78,6 +82,8 @@ class App {
       this.body && this.body.insertAdjacentHTML('afterend', '<main><div class="main__wrapper wrapper"></div></main>');
     }
     const mainWrapper = this.main?.querySelector('.main__wrapper');
+
+    mainWrapper?.insertAdjacentHTML('afterbegin', this.filtersBlock);
 
     if (!this.productsBlock) {
       this.productsBlock = document.createElement('div');
@@ -138,10 +144,10 @@ class App {
         }, 1000);
       });
     }
+    if (this.main) this.mainWithInner = this.main.cloneNode(true);
     document.querySelector('#clear-filters')?.addEventListener('click', () => {
       window.history.pushState(null, '', window.location.pathname + '?dsp=10t1749&dsa=2t150&sort=00');
-      this.drawCards();
-      //TODO: real reset
+      if (this.main && this.mainWithInner instanceof HTMLElement) this.main.innerHTML = this.mainWithInner.innerHTML;
     });
     this.main?.addEventListener('filterchange', this.drawCards.bind(this));
   }
