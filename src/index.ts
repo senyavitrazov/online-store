@@ -26,12 +26,12 @@ class App {
       if (key === 'dsp' && value !== '') {
         const left = +value.slice(0, value.indexOf('t'));
         const right = +value.slice(value.indexOf('t') + 1);
-        this.filteredProducts = this.filteredProducts.filter(e => left < e.price && e.price < right);
+        this.filteredProducts = this.filteredProducts.filter(e => left <= e.price && e.price <= right);
       }
       if (key === 'dsa' && value !== '') {
         const left = +value.slice(0, value.indexOf('t'));
         const right = +value.slice(value.indexOf('t') + 1);
-        this.filteredProducts = this.filteredProducts.filter(e => left < e.stock && e.stock < right);
+        this.filteredProducts = this.filteredProducts.filter(e => left <= e.stock && e.stock <= right);
       }
       if (key === 'search' && value !== '') {
         this.filteredProducts = this.filteredProducts.filter(e => {
@@ -62,6 +62,8 @@ class App {
       this.productList.innerHTML += `<product-card src="${this.filteredProducts[i].id - 1}"></product-card>`;
       i++;
     }
+    const founded = document.querySelector('#founded-amount');
+    if (founded) founded.innerHTML = `Found: ${this.filteredProducts.length}`;
   }
 
   constructor() {
@@ -82,14 +84,32 @@ class App {
       this.productsBlock.classList.add('products');
       this.productsBlock.innerHTML =
         '<div class="products__top"><div class="products__search search"><button class="search__button"></button><input type="text" ' +
-        'name="search" id="search-input" placeholder="search product"></div><sort-select></sort-select></div><div class="products__bottom product-list"></div>';
+        'name="search" id="search-input" placeholder="search product"></div><span id="founded-amount">Found: 100</span></button><sort-select></sort-select></div><div class="products__bottom product-list"></div>';
       mainWrapper?.append(this.productsBlock);
     }
+
     const searchInput = this.productsBlock.querySelector('input');
     if (searchInput) searchInput.value = this.searchText;
     searchInput?.addEventListener('change', () => {
       this.searchText = searchInput.value;
     });
+    searchInput?.addEventListener('keypress', event => {
+      if (event.key === 'Enter') {
+        let btn = null;
+        if (this.productsBlock) btn = this.productsBlock.querySelector('.search__button');
+        if (btn instanceof HTMLButtonElement) {
+          btn.click();
+        }
+      }
+    });
+    searchInput?.addEventListener('blur', () => {
+      let btn = null;
+      if (this.productsBlock) btn = this.productsBlock.querySelector('.search__button');
+      if (btn instanceof HTMLButtonElement) {
+        btn.click();
+      }
+    });
+
     this.productsBlock.querySelector('.search__button')?.addEventListener('click', () => {
       const params = new URLSearchParams(window.location.search);
       if (this.searchText !== ' ') {
@@ -106,6 +126,23 @@ class App {
     checkbox.drawcheckboxBrand();
     checkbox.filteredValue(dataExample.products);
 
+    const copyFilterButton = document.querySelector('#copy-filters');
+    if (copyFilterButton) {
+      copyFilterButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href);
+        copyFilterButton.innerHTML = 'copied in buffer';
+        copyFilterButton.setAttribute('disabled', '');
+        setTimeout(() => {
+          copyFilterButton.innerHTML = 'copy link';
+          copyFilterButton.removeAttribute('disabled');
+        }, 1000);
+      });
+    }
+    document.querySelector('#clear-filters')?.addEventListener('click', () => {
+      window.history.pushState(null, '', window.location.pathname + '?dsp=10t1749&dsa=2t150&sort=00');
+      this.drawCards();
+      //TODO: real reset
+    });
     this.main?.addEventListener('filterchange', this.drawCards.bind(this));
   }
 }
