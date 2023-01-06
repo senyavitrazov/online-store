@@ -1,47 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Store</title>
-  <link rel="icon" type="image/x-icon" href="./resources/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;800&display=swap" rel="stylesheet">
-</head>
-<body>
-  <header class="header">
-    <div class="header__wrapper wrapper">
-      <div class="header__logo logo">
-        <div class="logo__icon"></div>
-        <h1 class="logo__text">online&#8208;store</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Store</title>
+    <link rel="icon" type="image/x-icon" href="./resources/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__wrapper wrapper">
+        <div class="header__logo logo">
+          <div class="logo__icon"></div>
+          <h1 class="logo__text">online&#8208;store</h1>
+        </div>
+        <div class="cart">
+          <div class="cart__icon"></div>
+          <div class="cart__price">
+            <span class="cart__number">2 Products:</span>
+            <span class="cart__price-number"></span>
+          </div>
+        </div>
       </div>
-      <div class="cart">
-        <div class="cart__icon">
+    </header>
+    <main>
+      <div class="main__wrapper wrapper">
+        <div class="filters">
+          <div class="filter price-filter">
+            <span class="filter__title">Price:</span>
+            <dual-slider class="filter__slider" type="price"></dual-slider>
+          </div>
+          <div class="filter stock-filter">
+            <span class="filter__title">Stock:</span>
+            <dual-slider class="filter__slider"></dual-slider>
+          </div>
+          <span class="checkbox__title">Category</span>
+          <div class="checkbox-filter category-filter"></div>
+          <span class="checkbox__title">Brand</span>
+          <div class="checkbox-filter brand-filter"></div>
         </div>
-        <div class="cart__price">
-          <span>2 Products:</span>
-          $0.00
-        </div>
-      </div>
-    </div>
-  </header>
-  <main>
-    <div class="main__wrapper wrapper">
-      <div class="filters">
-        <div class="filter price-filter">
-          <span class="filter__title">Price:</span>
-          <dual-slider class="filter__slider" type="price"></dual-slider>
-        </div>
-        <div class="filter stock-filter">
-          <span class="filter__title">Stock:</span>
-          <dual-slider class="filter__slider"></dual-slider>
-        </div>
-        <span class="checkbox__title">Category</span>
-        <div class="checkbox-filter category-filter"></div>
-        <span class="checkbox__title">Brand</span>
-        <div class="checkbox-filter brand-filter"></div>
-      </div>
-      <!-- <div class="products">
+        <!-- <div class="products">
         <div class="products__top">
           <div class="products__search search">
             <button class="search__button"></button>
@@ -51,8 +53,8 @@
         </div>
         <div class="products__bottom product-list"></div>
       </div> -->
-    </div>
-  </main>
-  <footer></footer>
-</body>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
 </html>

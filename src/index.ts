@@ -4,6 +4,7 @@ import { Checkbox } from './ts/checkbox-filter';
 import { SortSelect, SortingField } from './ts/sort-select';
 import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
+import './ts/cart-SPA';
 
 const checkbox = new Checkbox();
 
