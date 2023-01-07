@@ -4,7 +4,6 @@ import { Checkbox } from './ts/checkbox-filter';
 import { SortSelect, SortingField } from './ts/sort-select';
 import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
-import { node } from 'webpack';
 
 const checkbox = new Checkbox();
 
@@ -90,7 +89,7 @@ class App {
       this.productsBlock.classList.add('products');
       this.productsBlock.innerHTML =
         '<div class="products__top"><div class="products__search search"><button class="search__button"></button><input type="text" ' +
-        'name="search" id="search-input" placeholder="search product"></div><span id="founded-amount">Found: 100</span></button><sort-select></sort-select></div><div class="products__bottom product-list"></div>';
+        'name="search" id="search-input" placeholder="search product"></div><span id="founded-amount">Found: 100</span><button id="view-change"></button><sort-select></sort-select></div>';
       mainWrapper?.append(this.productsBlock);
     }
 
@@ -131,6 +130,16 @@ class App {
     checkbox.drawcheckboxCategories();
     checkbox.drawcheckboxBrand();
     checkbox.filteredValue(dataExample.products);
+
+    const viewChanger = document.querySelector('#view-change');
+    if (viewChanger)
+      viewChanger.addEventListener('click', () => {
+        viewChanger.classList.toggle('active');
+        this.productList?.classList.toggle('little');
+        document.querySelectorAll('product-card').forEach(e => {
+          e.shadowRoot?.querySelector('.product-card')?.classList.toggle('little');
+        });
+      });
 
     const copyFilterButton = document.querySelector('#copy-filters');
     if (copyFilterButton) {

@@ -4,13 +4,36 @@
   justify-content: space-between;
   >* {
     flex-basis: 23%;
+    margin-bottom: 30px;
   }
 }
 
+.product-list.little {
+  >* {
+    flex-basis: 20%;
+    margin-bottom: 0;
+  }
+}
 
 .products {
   flex-basis: 76%;
 }
-product-card {
-  margin-bottom: 30px;
+
+
+#view-change {
+  height: 42px;
+  width: 42px;
+  border: 4px solid white;
+  box-shadow:  0 0 0 1px $color-light-gray;
+  background-image: url('https://wiki.geogebra.org/uploads/b/bd/Stylingbar_point.svg');
+  background-size: 29%;
+  background-position: center center;
+  background-origin: padding-box;
+  &.active {
+    background-size: 21%;
+  }
+  &:hover {
+    background-color: #f2f2f2;
+    border: 4px solid #f2f2f2;  
+  }
 }
