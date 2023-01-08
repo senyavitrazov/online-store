@@ -71,7 +71,13 @@ export function createTemplate(product: Product): string {
     <div class="about__price">
       <div class="about__price-cart">
         <p>€${product.price}</p>
-        <button class="add__button">${products_in_cart.includes(parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length-1]))?"Remove from Cart":"Add to Cart"}</button>
+        <button class="add__button">${
+          products_in_cart.includes(
+            parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length - 1])
+          )
+            ? 'Remove from Cart'
+            : 'Add to Cart'
+        }</button>
         <button class="buy__button">Buy Now</button>
       </div>
     </div>
@@ -108,18 +114,24 @@ window.onpopstate = (): void => {
     urlRoutes['/'] = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
     if (maincontent) maincontent.innerHTML = urlRoutes['/'] ? urlRoutes['/'] : 'hello';
     const checkbox = new Checkbox();
-    checkbox.drawcheckboxCategories();
-    checkbox.drawcheckboxBrand();
+    const params = new URLSearchParams(window.location.search);
+    const value = params.get('filters');
+    if (value) {
+      checkbox.drawcheckboxCategories(value.slice(0, value.length - 1).split('.'));
+      checkbox.drawcheckboxBrand(value.slice(0, value.length - 1).split('.'));
+    } else {
+      checkbox.drawcheckboxCategories([]);
+      checkbox.drawcheckboxBrand([]);
+    }
   }
   if (location.split('/')[1] === 'about') {
     if (maincontent)
       maincontent.innerHTML = createTemplate(dataExample.products[location.split('/')[location.split('/').length - 1]]);
   }
   if (location.split('/')[1] === 'cart') {
-    console.log('hi')
+    console.log('hi');
     if (maincontent) maincontent.innerHTML = cart;
     window.history.pushState({}, '', window.location.origin + `/cart`);
     drawCart(products_in_cart);
-    
   }
 };

@@ -2,7 +2,7 @@ import dataExample from '../assets/data-exapmle.json';
 import { Product } from './product-card';
 export class Checkbox {
   filterargs: Set<string> = new Set();
-  drawcheckboxCategories(): void {
+  drawcheckboxCategories(filter: string[]): void {
     const items: Array<Product> = dataExample.products;
     const categories: Set<string> = new Set();
     items.forEach(item => categories.add(item.category));
@@ -27,13 +27,19 @@ export class Checkbox {
     catinputs.forEach(el => {
       el.addEventListener('change', () => {
         this.filterargs.has(el.id) ? this.filterargs.delete(el.id) : this.filterargs.add(el.id);
-
         const filteredargs: string[] = Array.from(this.filterargs);
-        this.filterProdducts(filteredargs);
+        this.filterProdducts(filteredargs, dataExample.products);
+        document.querySelector('main')?.dispatchEvent(new Event('filterchange', { bubbles: true }));
       });
     });
+    filter.forEach(el => {
+      const thisInput = document.getElementById(`${el}`);
+      if (thisInput instanceof HTMLInputElement) {
+        thisInput.checked = true;
+      }
+    });
   }
-  drawcheckboxBrand(): void {
+  drawcheckboxBrand(filter: string[]): void {
     const items: Array<Product> = dataExample.products;
     const categories: Set<string> = new Set();
     items.forEach(item => categories.add(item.brand));
@@ -60,8 +66,15 @@ export class Checkbox {
         this.filterargs.has(el.id) ? this.filterargs.delete(el.id) : this.filterargs.add(el.id);
 
         const filteredargs: string[] = Array.from(this.filterargs);
-        this.filterProdducts(filteredargs);
+        this.filterProdducts(filteredargs, dataExample.products);
+        document.querySelector('main')?.dispatchEvent(new Event('filterchange', { bubbles: true }));
       });
+    });
+    filter.forEach(el => {
+      const thisInput = document.getElementById(`${el}`);
+      if (thisInput instanceof HTMLInputElement) {
+        thisInput.checked = true;
+      }
     });
   }
   changeUrl(filterargs: string[]): void {
@@ -83,12 +96,11 @@ export class Checkbox {
       if (filtervaluecategory) filtervaluecategory.innerHTML = (parseInt(filtervaluecategory.innerHTML) + 1).toString();
     });
   }
-  filterProdducts(filterinput: string[]): void {
-    const productList: Element | null = document.querySelectorAll('.product-list')[1];
-    let mixed = false;
-    let categories = 0;
-    let brands = 0;
-    dataExample.products.forEach((el: Product) => {
+  filterProdducts(filterinput: string[], productsinput: Product[]): Product[] {
+    //let categories = 0;
+    //let brands = 0;
+
+    /* productsinput.forEach((el: Product) => {
       filterinput.forEach(el2 => {
         if (el2 === el.category) {
           categories += 1;
@@ -97,40 +109,25 @@ export class Checkbox {
           brands += 1;
         }
       });
-      if (categories > 0 && brands > 0) mixed = true;
-    });
+      if (categories > 0 && brands > 0)
+    });*/
     let productsData: Product[] =
       filterinput.length === 0
-        ? dataExample.products
-        : dataExample.products.filter(
-            (el: Product) => filterinput.includes(el.brand) || filterinput.includes(el.category)
-          );
+        ? productsinput
+        : productsinput.filter((el: Product) => filterinput.includes(el.brand) || filterinput.includes(el.category));
     if (
-      dataExample.products.filter((el: Product) => filterinput.includes(el.brand) && filterinput.includes(el.category))
+      productsinput.filter((el: Product) => filterinput.includes(el.brand) && filterinput.includes(el.category))
         .length !== 0
     ) {
       productsData =
         filterinput.length === 0
-          ? dataExample.products
-          : dataExample.products.filter(
-              (el: Product) => filterinput.includes(el.brand) && filterinput.includes(el.category)
-            );
+          ? productsinput
+          : productsinput.filter((el: Product) => filterinput.includes(el.brand) && filterinput.includes(el.category));
     }
 
-    if (productList) productList.innerHTML = '';
-    let i: number = productsData.length;
-    while (i) {
-      i--;
-      if (productList) productList.innerHTML += `<product-card src="${productsData[i].id - 1}"></product-card>`;
-    }
-    if (
-      dataExample.products.filter((el: Product) => filterinput.includes(el.brand) && filterinput.includes(el.category))
-        .length === 0 &&
-      mixed != false
-    ) {
-      if (productList) productList.innerHTML = 'No Data Found';
-    }
     this.changeUrl(filterinput);
     this.filteredValue(productsData);
+
+    return productsData;
   }
 }
