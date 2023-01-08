@@ -143,7 +143,7 @@ class App {
       viewChanger.addEventListener('click', () => {
         viewChanger.classList.toggle('active');
         this.productList?.classList.toggle('little');
-        popup && popup.togglePopupBackground();
+        popup && popup.togglePopup(this.main);
         document.querySelectorAll('product-card').forEach(e => {
           e.shadowRoot?.querySelector('.product-card')?.classList.toggle('little');
         });
