@@ -5,11 +5,7 @@ import { PopupPurchase } from './ts/popup';
 import { SortSelect, SortingField } from './ts/sort-select';
 import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
-
-const checkbox = new Checkbox();
-
-checkbox.drawcheckboxCategories();
-checkbox.drawcheckboxBrand();
+import './ts/cart-SPA';
 
 class App {
   productsData: Product[] = dataExample.products;
@@ -52,7 +48,14 @@ class App {
         );
         if (reverseFlag) this.filteredProducts.reverse();
       }
-      // if(key === 'filter')
+      if (key === 'filters' && value !== '') {
+        const checkbox = new Checkbox();
+        this.filteredProducts = checkbox.filterProdducts(
+          value.slice(0, value.length - 1).split('.'),
+          this.filteredProducts
+        );
+        checkbox.filteredValue(this.filteredProducts);
+      }
     }
     if (!this.productList) {
       this.productList = document.createElement('div');
@@ -129,9 +132,15 @@ class App {
     this.drawCards();
     //checkbox-filters
     const checkbox = new Checkbox();
-    checkbox.drawcheckboxCategories();
-    checkbox.drawcheckboxBrand();
-    checkbox.filteredValue(dataExample.products);
+    const value = params.get('filters');
+    if (value) {
+      checkbox.drawcheckboxCategories(value.slice(0, value.length - 1).split('.'));
+      checkbox.drawcheckboxBrand(value.slice(0, value.length - 1).split('.'));
+    } else {
+      checkbox.drawcheckboxCategories([]);
+      checkbox.drawcheckboxBrand([]);
+    }
+    checkbox.filteredValue(this.filteredProducts);
 
     let popup: PopupPurchase | null = null;
     if (this.mainWrapper instanceof HTMLElement) {

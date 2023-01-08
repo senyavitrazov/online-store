@@ -1,5 +1,7 @@
 import styles from '../sass/components/card.styles.scss';
 import dataExample from '../assets/data-exapmle.json';
+import { updateCart, updateTotal } from './cart-SPA';
+import { createTemplate, urlRoute } from './about-SPA';
 
 export type Product = {
   id: number;
@@ -83,6 +85,24 @@ export class ProductCard extends HTMLElement {
 
       const price = this.shadowRoot?.querySelector('.product-card__price');
       const oldPrice = this.shadowRoot?.querySelector('.product-card__oldprice');
+      const cart__button = this.shadowRoot?.querySelector('.product-card');
+      cart__button?.addEventListener('click', (e: Event) => {
+        const target = <HTMLElement>e.target;
+
+        const src = this.getAttribute('src');
+
+        if (!target.matches('.product-card__button')) {
+          if (src) {
+            const maincontents: string | undefined = document.querySelector('main')?.innerHTML;
+            localStorage.setItem('mainc', maincontents ? maincontents : 'hello');
+            urlRoute(src);
+            createTemplate(dataExample.products[parseInt(src)]);
+          }
+        } else {
+          if (src) updateCart(parseInt(src));
+          updateTotal();
+        }
+      });
 
       if (price) price.innerHTML = '$' + product.price.toFixed(2);
       if (oldPrice) {
