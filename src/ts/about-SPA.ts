@@ -116,8 +116,10 @@ window.onpopstate = (): void => {
       maincontent.innerHTML = createTemplate(dataExample.products[location.split('/')[location.split('/').length - 1]]);
   }
   if (location.split('/')[1] === 'cart') {
+    console.log('hi')
     if (maincontent) maincontent.innerHTML = cart;
     window.history.pushState({}, '', window.location.origin + `/cart`);
     drawCart(products_in_cart);
+    
   }
 };

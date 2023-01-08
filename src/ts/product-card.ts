@@ -1,6 +1,6 @@
 import styles from '../sass/components/card.styles.scss';
 import dataExample from '../assets/data-exapmle.json';
-import { updateCart } from './cart-SPA';
+import { updateCart, updateTotal } from './cart-SPA';
 import { createTemplate, urlRoute } from './about-SPA';
 
 export type Product = {
@@ -93,11 +93,14 @@ export class ProductCard extends HTMLElement {
 
         if (!target.matches('.product-card__button')) {
           if (src) {
+            const maincontents: string | undefined = document.querySelector('main')?.innerHTML;
+            localStorage.setItem('mainc', maincontents ? maincontents : 'hello');
             urlRoute(src);
             createTemplate(dataExample.products[parseInt(src)]);
           }
         } else {
           if (src) updateCart(parseInt(src));
+          updateTotal();
         }
       });
 
