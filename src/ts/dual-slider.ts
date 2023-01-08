@@ -12,7 +12,7 @@ export class DualSlider extends HTMLElement {
     const params = new URLSearchParams(window.location.search);
     const limits = l + 't' + r;
     params.set(`ds${type ? 'p' : 'a'}`, limits);
-    window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+    // window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
   }
 
   constructor() {

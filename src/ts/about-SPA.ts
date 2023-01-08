@@ -73,7 +73,7 @@ export function createTemplate(product: Product): string {
         <p>€${product.price}</p>
         <button class="add__button">${
           products_in_cart.includes(
-            parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length - 1])
+            parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1])
           )
             ? 'Remove from Cart'
             : 'Add to Cart'
@@ -102,14 +102,11 @@ maincontent?.addEventListener('click', (e: Event) => {
   if (bigPicture) bigPicture.innerHTML = `<img alt="Slide" src=${src}>`;
 });
 export const urlRoute = (itemsrc: string): void => {
-  window.history.pushState({}, '', window.location.origin + `/about/${itemsrc}`);
+  window.history.pushState({}, '', window.location.origin + `/#/about/${itemsrc}`);
   if (maincontent) maincontent.innerHTML = createTemplate(dataExample.products[itemsrc]);
 };
-window.onpopstate = (): void => {
-  let location: string = window.location.pathname;
-  if (location.length == 0) {
-    location = '/';
-  }
+const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
+const processLocation = (location: string) => {
   if (location === '/') {
     urlRoutes['/'] = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
     if (maincontent) maincontent.innerHTML = urlRoutes['/'] ? urlRoutes['/'] : 'hello';
@@ -131,7 +128,12 @@ window.onpopstate = (): void => {
   if (location.split('/')[1] === 'cart') {
     console.log('hi');
     if (maincontent) maincontent.innerHTML = cart;
-    window.history.pushState({}, '', window.location.origin + `/cart`);
+    window.history.pushState({}, '', window.location.origin + `/#/cart`);
     drawCart(products_in_cart);
   }
 };
+window.onpopstate = (): void => {
+  const location: string = parseLocation();
+  processLocation(location);
+};
+window.addEventListener('DOMContentLoaded', () => processLocation(parseLocation()));
