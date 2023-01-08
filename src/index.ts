@@ -1,6 +1,7 @@
 import { DualSlider } from './ts/dual-slider';
 import { ProductCard, Product } from './ts/product-card';
 import { Checkbox } from './ts/checkbox-filter';
+import { PopupPurchase } from './ts/popup';
 import { SortSelect, SortingField } from './ts/sort-select';
 import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
@@ -15,6 +16,7 @@ class App {
   filteredProducts: Product[] = dataExample.products;
   body = document.querySelector('body');
   main = document.querySelector('main');
+  mainWrapper = document.querySelector('.main__wrapper');
   productsBlock = document.querySelector('.products');
   productList = document.querySelector('.product-list');
   searchText = '';
@@ -79,10 +81,10 @@ class App {
     window.customElements.define('sort-select', SortSelect);
     if (!this.main) {
       this.body && this.body.insertAdjacentHTML('afterend', '<main><div class="main__wrapper wrapper"></div></main>');
+      this.mainWrapper = document.querySelector('.main__wrapper');
     }
-    const mainWrapper = this.main?.querySelector('.main__wrapper');
 
-    mainWrapper?.insertAdjacentHTML('afterbegin', this.filtersBlock);
+    this.mainWrapper?.insertAdjacentHTML('afterbegin', this.filtersBlock);
 
     if (!this.productsBlock) {
       this.productsBlock = document.createElement('div');
@@ -90,7 +92,7 @@ class App {
       this.productsBlock.innerHTML =
         '<div class="products__top"><div class="products__search search"><button class="search__button"></button><input type="text" ' +
         'name="search" id="search-input" placeholder="search product"></div><span id="founded-amount">Found: 100</span><button id="view-change"></button><sort-select></sort-select></div>';
-      mainWrapper?.append(this.productsBlock);
+      this.mainWrapper?.append(this.productsBlock);
     }
 
     const searchInput = this.productsBlock.querySelector('input');
@@ -131,11 +133,17 @@ class App {
     checkbox.drawcheckboxBrand();
     checkbox.filteredValue(dataExample.products);
 
+    let popup: PopupPurchase | null = null;
+    if (this.mainWrapper instanceof HTMLElement) {
+      popup = new PopupPurchase(this.main);
+    }
+
     const viewChanger = document.querySelector('#view-change');
     if (viewChanger)
       viewChanger.addEventListener('click', () => {
         viewChanger.classList.toggle('active');
         this.productList?.classList.toggle('little');
+        popup && popup.togglePopupBackground();
         document.querySelectorAll('product-card').forEach(e => {
           e.shadowRoot?.querySelector('.product-card')?.classList.toggle('little');
         });
