@@ -1,11 +1,12 @@
 import dataExample from '../assets/data-exapmle.json';
 import { Product } from './product-card';
 import { Checkbox } from './checkbox-filter';
+import { cart, drawCart, products_in_cart } from './cart-SPA';
 const main: string | null = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
-let src2 = '';
+//let src2 = '';
 const aboutstr: string | null = localStorage.getItem('aboutproducts') ? localStorage.getItem('aboutproducts') : '';
 let about: number[] = [];
-document.addEventListener('click', (e: Event) => {
+/*document.addEventListener('click', (e: Event) => {
   const target = <HTMLElement>e.target;
   if (!target.matches('product-card')) {
     return;
@@ -17,12 +18,12 @@ document.addEventListener('click', (e: Event) => {
   if (src) src2 = src;
   urlRoute(src2);
   createTemplate(dataExample.products[src2]);
-});
+});*/
 dataExample.products.forEach((el: Product, idx: number): void => {
   about.push(idx);
 });
 if (aboutstr) about = JSON.parse(aboutstr);
-function createTemplate(product: Product): string {
+export function createTemplate(product: Product): string {
   let imagesstr = '';
   product.images.forEach((el: string) => {
     imagesstr += `<img alt="Slide" class="picture-small" src=${el}>`;
@@ -70,8 +71,8 @@ function createTemplate(product: Product): string {
     <div class="about__price">
       <div class="about__price-cart">
         <p>€${product.price}</p>
-        <button>Add to cart</button>
-        <button>Buy Now</button>
+        <button class="add__button">${products_in_cart.includes(parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length-1]))?"Remove from Cart":"Add to Cart"}</button>
+        <button class="buy__button">Buy Now</button>
       </div>
     </div>
   </div>
@@ -94,7 +95,7 @@ maincontent?.addEventListener('click', (e: Event) => {
   const bigPicture: HTMLDivElement | null = document.querySelector('.about__images-big');
   if (bigPicture) bigPicture.innerHTML = `<img alt="Slide" src=${src}>`;
 });
-const urlRoute = (itemsrc: string): void => {
+export const urlRoute = (itemsrc: string): void => {
   window.history.pushState({}, '', window.location.origin + `/about/${itemsrc}`);
   if (maincontent) maincontent.innerHTML = createTemplate(dataExample.products[itemsrc]);
 };
@@ -113,5 +114,12 @@ window.onpopstate = (): void => {
   if (location.split('/')[1] === 'about') {
     if (maincontent)
       maincontent.innerHTML = createTemplate(dataExample.products[location.split('/')[location.split('/').length - 1]]);
+  }
+  if (location.split('/')[1] === 'cart') {
+    console.log('hi')
+    if (maincontent) maincontent.innerHTML = cart;
+    window.history.pushState({}, '', window.location.origin + `/cart`);
+    drawCart(products_in_cart);
+    
   }
 };
