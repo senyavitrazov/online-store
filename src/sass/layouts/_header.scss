@@ -1,0 +1,26 @@
+.header {
+  margin-bottom: 30px;
+  &__wrapper {
+    border-bottom: solid #80808079 2px;
+    padding: 15px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.cart {
+  display: flex;
+  justify-content: center;
+  align-items: center ;
+
+  &__icon {
+    background-color: red;
+    background-image: url(../assets/bag-icon.svg);
+    @extend %icon-circle;
+  }
+
+  &__price {
+    margin-left: 20px;
+  }
+}

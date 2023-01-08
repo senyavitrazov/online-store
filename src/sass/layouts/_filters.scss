@@ -1,0 +1,110 @@
+.filters {
+  flex-basis: 22%;
+  border-right: solid #80808079 2px;
+  padding: 40px 20px;
+}
+
+.filter {
+  width: 100%;
+
+  &__title {
+    @include font(1.8rem, 2rem, 500);
+  }
+
+  &__slider {
+    display: block;
+    padding-top: 30px;
+    font-size: 1.8rem;
+  }
+}
+
+.checkbox__title {
+  display: block;
+  text-align: center;
+  @include font(1.8rem, 2rem, 500);
+  margin-top: 20px;
+}
+
+.checkbox-filter {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-top: 20px;
+  height: 220px;
+  overflow-x: hidden;
+
+  .checkbox-input {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 2%;
+    padding: 5px 10px;
+    accent-color: red;
+
+    .filter-label {
+      @include font(1.8rem, 1rem, 400);
+    }
+
+    .filtered-value {
+      margin-left: auto;
+    }
+  }
+}
+
+.checkbox-filter::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 8px;
+}
+
+.checkbox-filter::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: red;  
+} 
+
+.price-filter {
+}
+
+#clear-filters {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid black;
+  background-image: url('https://cdn-icons-png.flaticon.com/512/5939/5939444.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 65%;
+  background-color: white;
+  transition: all .2s;
+  &:hover {
+    filter: invert(100%);
+    border: 2px solid white;
+  }
+}
+
+#copy-filters {
+  width: 140px;
+  height: 50px;
+  border: 2px solid black;
+  text-align: center;
+  text-justify: center;
+  background: white;
+  transition: all .2s;
+  &:hover {
+    filter: invert(100%);
+    border: 2px solid white;
+  }
+  &:disabled {
+    filter: invert(80%);
+    color: black;
+    border: 2px solid white;
+  }
+}
+
+.filters__buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: solid 2px $color-light-gray;
+}

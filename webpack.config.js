@@ -9,7 +9,11 @@ const devServer = (isDev) => !isDev ? {} : {
   devServer: {
     open: true,
     port: 8080,
-    contentBase: path.join(__dirname, 'public'),
+    static: {
+      directory: path.join(__dirname, 'public')
+    },
+    hot: true,
+    liveReload: true,
   },
 };
 
@@ -45,8 +49,24 @@ module.exports = ({ development }) => ({
       },
       {
         test: /\.s[ac]ss$/i,
+        exclude: [/\.styles.scss$/, /node_modules/],
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      }
+      },
+      {
+        test: /\.styles.scss$/,
+        exclude: /node_modules/,
+        use: [
+          "sass-to-string",
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                outputStyle: "compressed",
+              },
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
