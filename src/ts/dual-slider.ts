@@ -32,7 +32,6 @@ export class DualSlider extends HTMLElement {
     if (value) {
       this.oldValues.left = +value.slice(0, value.indexOf('t'));
       this.oldValues.right = +value.slice(value.indexOf('t') + 1);
-      console.log(this.oldValues);
     }
 
     let symbolOfValue = '';
@@ -56,10 +55,10 @@ export class DualSlider extends HTMLElement {
       <div class="container">
         <div class="slider-track"></div>
         <input type="range" min="${this.limitsOfValues.left}" value="${
-      this.oldValues.left || this.limitsOfValues.left + 20 * MIN_GAP
+      this.oldValues.left || this.limitsOfValues.left
     }" max="${this.limitsOfValues.right}" id="slider-1"></input>
         <input type="range" min="${this.limitsOfValues.left}" value="${
-      this.oldValues.right || this.limitsOfValues.right - 20 * MIN_GAP
+      this.oldValues.right || this.limitsOfValues.right
     }" max="${this.limitsOfValues.right}" id="slider-2"></input>
       </div>
     </div>
