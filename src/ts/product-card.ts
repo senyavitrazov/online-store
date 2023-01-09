@@ -90,16 +90,19 @@ export class ProductCard extends HTMLElement {
         const target = <HTMLElement>e.target;
         const maincontents: string | undefined = window.location.pathname+window.location.search;
         localStorage.setItem('mainc', maincontents ? maincontents : 'hello');
+
         const src = this.getAttribute('src');
 
         if (!target.matches('.product-card__button')) {
           if (src) {
-           
+
             urlRoute(src);
             createTemplate(dataExample.products[parseInt(src)]);
           }
         } else {
+
           
+
           if (src) updateCart(parseInt(src));
           updateTotal();
         }

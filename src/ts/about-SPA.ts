@@ -58,7 +58,9 @@ export function createTemplate(product: Product): string {
         <p>€${product.price}</p>
         <button class="add__button">${
           products_in_cart.includes(
+
             parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1])
+
           )
             ? 'Remove from Cart'
             : 'Add to Cart'
@@ -94,12 +96,12 @@ const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
 const processLocation = (location: string) => {
   if (location === '/') {
    location=location+urlRoutes['/']}
+
   if (location.split('/')[1] === 'about') {
     if (maincontent)
       maincontent.innerHTML = createTemplate(dataExample.products[location.split('/')[location.split('/').length - 1]]);
   }
   if (location.split('/')[1] === 'cart') {
-     
     if (maincontent) maincontent.innerHTML = cart;
     window.history.pushState({}, '', window.location.origin + `/#/cart`);
     drawCart(products_in_cart);
@@ -116,3 +118,4 @@ window.addEventListener('DOMContentLoaded', () => {
   processLocation(parseLocation())
   
 });
+

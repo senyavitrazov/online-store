@@ -1,23 +1,34 @@
 import { DualSlider } from './ts/dual-slider';
 import { ProductCard, Product } from './ts/product-card';
 import { Checkbox } from './ts/checkbox-filter';
+
+
+import { PopupPurchase } from './ts/popup';
+
 import { SortSelect, SortingField } from './ts/sort-select';
 import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
 import './ts/cart-SPA';
 
-export class App {
+
+class App {
+
   productsData: Product[] = dataExample.products;
   filteredProducts: Product[] = dataExample.products;
   body = document.querySelector('body');
   main = document.querySelector('main');
+
+  mainWrapper = document.querySelector('.main__wrapper');
+
   productsBlock = document.querySelector('.products');
   productList = document.querySelector('.product-list');
   searchText = '';
   filtersBlock = '';
   mainWithInner: Node | null = null;
+
   params = new URLSearchParams(window.location.search);
   filterold:string|null = this.params.get('filters')? this.params.get('filters'):null;
+
   drawCards() {
     const params = new URLSearchParams(window.location.search);
     this.filteredProducts = dataExample.products;
@@ -50,7 +61,9 @@ export class App {
       if (key === 'filters' && value !== '') {
         const checkbox = new Checkbox();
         this.filteredProducts = checkbox.filterProdducts(
+
           value.split('.'),
+
           this.filteredProducts
         );
         checkbox.filteredValue(this.filteredProducts);
@@ -83,10 +96,11 @@ export class App {
     window.customElements.define('sort-select', SortSelect);
     if (!this.main) {
       this.body && this.body.insertAdjacentHTML('afterend', '<main><div class="main__wrapper wrapper"></div></main>');
+      this.mainWrapper = document.querySelector('.main__wrapper');
     }
-    const mainWrapper = this.main?.querySelector('.main__wrapper');
 
-    mainWrapper?.insertAdjacentHTML('afterbegin', this.filtersBlock);
+    this.mainWrapper?.insertAdjacentHTML('afterbegin', this.filtersBlock);
+
 
     if (!this.productsBlock) {
       this.productsBlock = document.createElement('div');
@@ -94,8 +108,8 @@ export class App {
       this.productsBlock.innerHTML =
         '<div class="products__top"><div class="products__search search"><button class="search__button"></button><input type="text" ' +
         'name="search" id="search-input" placeholder="search product"></div><span id="founded-amount">Found: 100</span><button id="view-change"></button><sort-select></sort-select></div>';
-      mainWrapper?.append(this.productsBlock);
-    }
+
+      this.mainWrapper?.append(this.productsBlock);    }
 
     const searchInput = this.productsBlock.querySelector('input');
     if (searchInput) searchInput.value = this.searchText;
@@ -131,21 +145,30 @@ export class App {
     this.drawCards();
     //checkbox-filters
     const checkbox = new Checkbox();
-     
     if (this.filterold) {
       checkbox.drawcheckboxCategories(this.filterold.split('.'));
       checkbox.drawcheckboxBrand(this.filterold.split('.'));
+
     } else {
       checkbox.drawcheckboxCategories([]);
       checkbox.drawcheckboxBrand([]);
     }
     checkbox.filteredValue(this.filteredProducts);
 
+
+    let popup: PopupPurchase | null = null;
+    if (this.mainWrapper instanceof HTMLElement) {
+      popup = new PopupPurchase(this.main);
+    }
+
+
     const viewChanger = document.querySelector('#view-change');
     if (viewChanger)
       viewChanger.addEventListener('click', () => {
         viewChanger.classList.toggle('active');
         this.productList?.classList.toggle('little');
+
+        popup && popup.togglePopup(this.main);
         document.querySelectorAll('product-card').forEach(e => {
           e.shadowRoot?.querySelector('.product-card')?.classList.toggle('little');
         });
@@ -165,7 +188,8 @@ export class App {
     }
     if (this.main) this.mainWithInner = this.main.cloneNode(true);
     document.querySelector('#clear-filters')?.addEventListener('click', () => {
-       window.history.pushState(null, '', window.location.pathname + '?dsp=10t1749&dsa=2t150&sort=00');
+      window.history.pushState(null, '', window.location.pathname + '?dsp=10t1749&dsa=2t150&sort=00');
+
       if (this.main && this.mainWithInner instanceof HTMLElement) this.main.innerHTML = this.mainWithInner.innerHTML;
     });
     this.main?.addEventListener('filterchange', this.drawCards.bind(this));

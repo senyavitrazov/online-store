@@ -40,7 +40,9 @@ export let products_in_cart: number[] = [];
 if (productstr) products_in_cart = JSON.parse(productstr);
 const totalstr: string | null = localStorage.getItem('totalproducts') ? localStorage.getItem('totalproducts') : null;
 const total_in_cart: number[] = totalstr ? JSON.parse(totalstr) : new Array(products_in_cart.length).fill(1);
+
 let discount = 0;
+
 const maincontent = document.querySelector('main');
 document.addEventListener('click', (e: Event) => {
   const target = <HTMLElement>e.target;
@@ -49,7 +51,9 @@ document.addEventListener('click', (e: Event) => {
   }
   e.preventDefault();
   if (maincontent) maincontent.innerHTML = cart;
+
   window.history.pushState({}, '', window.location.origin + `/#/cart`);
+
   drawCart(products_in_cart);
 });
 
@@ -74,7 +78,7 @@ export const updateTotal = () => {
 };
 updateTotal();
 export const updateCart = (number: number) => {
-  console.log(number);
+
   if (products_in_cart.includes(number)) {
     products_in_cart.splice(products_in_cart.indexOf(number), 1);
     total_in_cart.splice(products_in_cart.indexOf(number), 1);
@@ -169,6 +173,7 @@ export const drawCart = (products: number[]): void => {
     });
   }
 
+
   pageNumber?.addEventListener('click', e => {
     const target = <HTMLElement>e.target;
     if (target.matches('.page__number-button-left')) {
@@ -196,10 +201,12 @@ export const drawCart = (products: number[]): void => {
           array.slice(
             parseInt(pagelimitInput.value) * (parseInt(pageNumbertext.innerHTML) - 1),
             parseInt(pagelimitInput.value) + parseInt(pagelimitInput.value) * (parseInt(pageNumbertext.innerHTML) - 1)
+
           ),
           parseInt(pageNumbertext.innerHTML),
           parseInt(pagelimitInput.value)
         );
+
       }
     }
   });
@@ -208,13 +215,15 @@ export const drawCart = (products: number[]): void => {
 };
 
 const drawproducts = (products: number[], page: number, limit: number): void => {
-  let number = 0;
+let number = 0;
   const carthtml: Element | null = document.querySelector('.products__list');
   if (carthtml) carthtml.innerHTML = '';
   for (let i = 0; i < products.length; i++) {
     const product: Product = dataExample.products[products[i]];
     const template = `<div class="cart__product">
+
         <div class="product__number">${number + 1 + (page - 1) * limit}</div>
+
         <div class="product__preview">
           <img src="${product.thumbnail}" />
           <div class="product__info">
@@ -257,6 +266,7 @@ const drawproducts = (products: number[], page: number, limit: number): void => 
         const price = productCount[index].querySelector('.product__price');
         const stock = productCount[index].querySelector('.product__stock');
         if (pagequanttext && price && stock) {
+
           price.innerHTML = `€${
             parseInt(pagequanttext.innerHTML) !== parseInt(stock.innerHTML.split(':')[1])
               ? dataExample.products[products_in_cart[index + (page - 1) * limit]].price *
@@ -279,10 +289,12 @@ const drawproducts = (products: number[], page: number, limit: number): void => 
         const price = productCount[index].querySelector('.product__price');
         const stock = productCount[index].querySelector('.product__stock');
         if (pagequanttext && price && stock) {
+
           price.innerHTML = `€${
             parseInt(pagequanttext.innerHTML) !== 0
               ? dataExample.products[products_in_cart[index + (page - 1) * limit]].price *
                 (parseInt(pagequanttext.innerHTML) - 1)
+
               : price.innerHTML.slice(1)
           }`;
           pagequanttext.innerHTML =
@@ -294,11 +306,14 @@ const drawproducts = (products: number[], page: number, limit: number): void => 
           if (parseInt(pagequanttext.innerHTML) === 0) {
             products_in_cart.splice(index + (page - 1) * limit, 1);
             total_in_cart.splice(index + (page - 1) * limit, 1);
+
             localStorage.setItem('cartproducts', JSON.stringify(products_in_cart));
             localStorage.setItem('totalproducts', JSON.stringify(total_in_cart));
             drawCart(products_in_cart);
             updateTotal();
           }
+
+
         }
       }
     });

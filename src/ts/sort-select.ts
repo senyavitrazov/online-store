@@ -15,6 +15,7 @@ export class SortSelect extends HTMLElement {
     const sortCode = `${this.sortingField}` + Number(this.reverseFlag);
     params.set('sort', sortCode);
      window.history.pushState(null, '',  location.hash.slice(1) + '?' + params.toString());
+
     this.dispatchEvent(new Event('filterchange', { bubbles: true }));
   }
 
@@ -30,7 +31,9 @@ export class SortSelect extends HTMLElement {
     if (oldValue === null) {
       oldValue = '00';
       params.set('sort', '00');
+
        //window.history.pushState(null, '', location.hash.slice(1) + '?' + params.toString());
+
     }
     let sortField = 0;
     this.reverseFlag = !!(+oldValue % 10);
