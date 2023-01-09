@@ -36,16 +36,16 @@ export const cart = `<div class="cart__main">
 `;
 export let products_in_cart: number[] = [];
 
-const cartnumber = document.querySelector('.cart__number');
-const cartprice = document.querySelector('.cart__price-number');
+const cartnumber:HTMLElement|null = document.querySelector('.cart__number');
+const cartprice:HTMLElement|null = document.querySelector('.cart__price-number');
 const productstr: string | null = localStorage.getItem('cartproducts') ? localStorage.getItem('cartproducts') : '';
 const totalstr: string | null = localStorage.getItem('totalproducts') ? localStorage.getItem('totalproducts') : null;
 const total_in_cart: number[] = totalstr ? JSON.parse(totalstr) : new Array(products_in_cart.length).fill(1);
 if (productstr) products_in_cart = JSON.parse(productstr);
 let discount = 0;
-const maincontent = document.querySelector('main');
+const maincontent:HTMLElement|null = document.querySelector('main');
 
-document.addEventListener('click', (e: Event) => {
+document.addEventListener('click', (e: Event):void => {
   const target = <HTMLElement>e.target;
   if (!target.matches('.cart__icon')) {
     return;
@@ -58,7 +58,7 @@ document.addEventListener('click', (e: Event) => {
   drawCart(products_in_cart);
 });
 
-export const updateTotal = () => {
+export const updateTotal = () :void => {
   if (cartnumber)
     cartnumber.innerHTML =
       total_in_cart.length > 0 ? `${total_in_cart.reduce((acc, el) => acc + el)} Products` : '0 Products';
@@ -70,8 +70,8 @@ export const updateTotal = () => {
     cartprice.innerHTML = price + '$';
   }
   if (location.hash.slice(1).toLowerCase().split('/')[1] === 'cart') {
-    const totlalproducts = document.querySelector('.total__products');
-    const totlalprice = document.querySelector('.total__price');
+    const totlalproducts:HTMLElement|null = document.querySelector('.total__products');
+    const totlalprice:HTMLElement|null = document.querySelector('.total__price');
     if (totlalproducts)
       totlalproducts.innerHTML = total_in_cart.length > 0 ? `${total_in_cart.reduce((acc, el) => acc + el)}` : '0';
     if (cartprice && totlalprice) totlalprice.innerHTML = cartprice?.innerHTML;
@@ -79,7 +79,7 @@ export const updateTotal = () => {
 };
 updateTotal();
 
-export const updateCart = (number: number) => {
+export const updateCart = (number: number) : void => {
 
   if (products_in_cart.includes(number)) {
     products_in_cart.splice(products_in_cart.indexOf(number), 1);
@@ -96,35 +96,34 @@ export const updateCart = (number: number) => {
   updateTotal();
 };
 
-maincontent?.addEventListener('click', (e: Event) => {
-  const targetButton = <HTMLElement>e.target;
-  if (!targetButton.matches('.add__button')) {
+maincontent?.addEventListener('click', (e: Event):void => {
+  const targetButton = e.target;
+  if (targetButton instanceof HTMLElement && targetButton && !targetButton.matches('.add__button')) {
     return;
   }
   e.preventDefault();
-  console.log(parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1]));
   updateCart(parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1]));
-  products_in_cart.includes(
+  if(targetButton&&targetButton instanceof HTMLElement)products_in_cart.includes(
     parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1])
-  )
+  ) 
     ? (targetButton.innerHTML = 'Remove from Cart')
     : (targetButton.innerHTML = 'Add to Cart');
 });
 
 export const drawCart = (products: number[]): void => {
-  const pagelimitInput = <HTMLInputElement>document.getElementById('number_input');
-  const pageNumber = document.querySelector('.page__number');
-  const pageNumbertext = document.querySelector('.page__number-count');
-  const array = products;
-  const promos = ['rs', 'rsschool'];
-  const promoInput = <HTMLInputElement>document.getElementById('promo_input');
+  const pagelimitInput = document.getElementById('number_input');
+  const pageNumber:HTMLElement|null = document.querySelector('.page__number');
+  const pageNumbertext:HTMLElement|null = document.querySelector('.page__number-count');
+  const array:number[] = products;
+  const promos:string[] = ['rs', 'rsschool'];
+  const promoInput =  document.getElementById('promo_input');
   const promoaddButton = document.querySelectorAll('.promo__add');
   promoaddButton.forEach(el => {
     el.addEventListener('click', () => {
       if (el.parentElement?.className.includes('active')) {
         el.parentElement?.classList.remove('active');
         el.innerHTML = 'ADD';
-        !promos.includes(promoInput.value.toLowerCase()) ? el.parentElement.classList.add('hidden') : '';
+        promoInput instanceof HTMLInputElement &&!promos.includes(promoInput.value.toLowerCase()) ? el.parentElement.classList.add('hidden') : '';
         if (el.previousElementSibling) discount -= parseInt(el.previousElementSibling?.innerHTML.slice(0, -1)) / 100;
         updateTotal();
       } else {
@@ -136,8 +135,8 @@ export const drawCart = (products: number[]): void => {
       }
     });
   });
-  promoInput?.addEventListener('input', () => {
-    if (promos.includes(promoInput.value.toLowerCase())) {
+  promoInput?.addEventListener('input', ():void => {
+    if (promoInput instanceof HTMLInputElement &&promos.includes(promoInput.value.toLowerCase())) {
       const promoactive: HTMLElement | null = document.querySelector(`.${promoInput.value.toLowerCase()}`);
       promoactive?.classList.toggle('hidden');
       promoactive?.className.includes('active') ? promoactive?.classList.toggle('hidden') : '';
@@ -162,7 +161,7 @@ export const drawCart = (products: number[]): void => {
     })
   }
 
-  if (pageNumbertext) {
+  if (pageNumbertext&&pagelimitInput instanceof HTMLInputElement) {
     drawproducts(
       array.slice(
         0 + (parseInt(pageNumbertext.innerHTML) - 1) * parseInt(pagelimitInput.value),
@@ -187,10 +186,10 @@ export const drawCart = (products: number[]): void => {
     });
   }
 
-  pageNumber?.addEventListener('click', e => {
-    const target = <HTMLElement>e.target;
-    if (target.matches('.page__number-button-left')) {
-      if (pageNumbertext) {
+  pageNumber?.addEventListener('click', (e:Event):void => {
+    const target =  e.target;
+    if (target instanceof HTMLElement&& target.matches('.page__number-button-left')) {
+      if (pageNumbertext && pagelimitInput instanceof HTMLInputElement) {
         pageNumbertext.innerHTML =
           parseInt(pageNumbertext.innerHTML) > 1 ? (parseInt(pageNumbertext.innerHTML) - 1).toString() : '1';
 
@@ -204,8 +203,8 @@ export const drawCart = (products: number[]): void => {
         );
       }
     }
-    if (target.matches('.page__number-button-right')) {
-      if (pageNumbertext) {
+    if (target instanceof HTMLElement&&target.matches('.page__number-button-right')) {
+      if (pageNumbertext&&pagelimitInput instanceof HTMLInputElement) {
         pageNumbertext.innerHTML =
           parseInt(pageNumbertext.innerHTML) < Math.ceil(products_in_cart.length / parseInt(pagelimitInput.value))
             ? (parseInt(pageNumbertext.innerHTML) + 1).toString()
@@ -260,20 +259,20 @@ const drawproducts = (products: number[], page: number, limit: number): void => 
     if (carthtml) carthtml.innerHTML += template;
   }
   const targetProduct = document.querySelectorAll('.product__preview');
-  targetProduct.forEach((el, index) => {
+  targetProduct.forEach((el:Element, index:number) => {
     el.addEventListener('click', () => {
       urlRoute(products_in_cart[index].toString());
     });
   });
   const productCount = document.querySelectorAll('.product__count');
 
-  productCount.forEach((el, index) => {
+  productCount.forEach((el:Element, index:number):void => {
     el.addEventListener('click', e => {
       const target = <HTMLElement>e.target;
       if (target.matches('.quantity__button-left')) {
-        const pagequanttext = target.parentElement?.querySelector('.product__quant');
-        const price = productCount[index].querySelector('.product__price');
-        const stock = productCount[index].querySelector('.product__stock');
+        const pagequanttext:HTMLElement|null|undefined = target.parentElement?.querySelector('.product__quant');
+        const price:HTMLElement|null = productCount[index].querySelector('.product__price');
+        const stock:HTMLElement|null = productCount[index].querySelector('.product__stock');
         if (pagequanttext && price && stock) {
           price.innerHTML = `€${
             parseInt(pagequanttext.innerHTML) !== parseInt(stock.innerHTML.split(':')[1])
@@ -293,9 +292,9 @@ const drawproducts = (products: number[], page: number, limit: number): void => 
         }
       }
       if (target.matches('.quantity__button-right')) {
-        const pagequanttext = target.parentElement?.querySelector('.product__quant');
-        const price = productCount[index].querySelector('.product__price');
-        const stock = productCount[index].querySelector('.product__stock');
+        const pagequanttext:HTMLElement|null|undefined = target.parentElement?.querySelector('.product__quant');
+        const price:HTMLElement|null = productCount[index].querySelector('.product__price');
+        const stock:HTMLElement|null = productCount[index].querySelector('.product__stock');
         if (pagequanttext && price && stock) {
           price.innerHTML = `€${
             parseInt(pagequanttext.innerHTML) !== 0
