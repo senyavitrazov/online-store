@@ -85,7 +85,9 @@ export class ProductCard extends HTMLElement {
 
       const price = this.shadowRoot?.querySelector('.product-card__price');
       const oldPrice = this.shadowRoot?.querySelector('.product-card__oldprice');
+
       const cart__button = this.shadowRoot?.querySelector('.product-card');
+
       cart__button?.addEventListener('click', (e: Event) => {
         const target = <HTMLElement>e.target;
         const maincontents: string | undefined = window.location.pathname+window.location.search;
@@ -100,11 +102,13 @@ export class ProductCard extends HTMLElement {
             createTemplate(dataExample.products[parseInt(src)]);
           }
         } else {
-
-          
-
-          if (src) updateCart(parseInt(src));
-          updateTotal();
+          if (src) {
+            updateCart(parseInt(src));
+            const a = localStorage.getItem('cartproducts') || '[]';
+            const temp: number[] = JSON.parse(a);
+            temp.includes(+src) ? (target.innerHTML = '−') : (target.innerHTML = '+');
+            updateTotal();
+          }
         }
       });
 
