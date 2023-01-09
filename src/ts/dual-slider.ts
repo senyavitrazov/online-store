@@ -12,7 +12,7 @@ export class DualSlider extends HTMLElement {
     const params = new URLSearchParams(window.location.search);
     const limits = l + 't' + r;
     params.set(`ds${type ? 'p' : 'a'}`, limits);
-     window.history.pushState(null, '', location.hash.slice(1) + '?' + params.toString());
+    window.history.pushState(null, '', location.hash.slice(1) + '?' + params.toString());
   }
 
   constructor() {
@@ -74,14 +74,13 @@ export class DualSlider extends HTMLElement {
     const sliderTrack = shadow.querySelector('.slider-track');
     const sliderMaxValue = sliderOne instanceof HTMLInputElement ? sliderOne.max : null;
 
-     const fillColor = () => {
+    const fillColor = () => {
       if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement && sliderMaxValue !== null) {
         const percent1: number = (+sliderOne.value / +sliderMaxValue) * 100;
         const percent2: number = (+sliderTwo.value / +sliderMaxValue) * 100;
         if (sliderTrack instanceof HTMLDivElement) {
           sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #ff0000 ${percent1}% , #ff0000 ${percent2}%, #dadae5 ${percent2}%)`;
         }
-        this.changeUrl(symbolOfValue, sliderOne.value, sliderTwo.value);
       }
     };
 
@@ -104,17 +103,20 @@ export class DualSlider extends HTMLElement {
         fillColor();
       }
     }
-
+   
     if (sliderOne && sliderTwo) {
-       
-       
+      fillColor();
       sliderOne.oninput = slideOne;
       sliderTwo.oninput = slideTwo;
       sliderOne.onchange = () => {
         this.dispatchEvent(new Event('filterchange', { bubbles: true }));
+        if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement)
+          this.changeUrl(symbolOfValue, sliderOne.value, sliderTwo.value);
       };
       sliderTwo.onchange = () => {
         this.dispatchEvent(new Event('filterchange', { bubbles: true }));
+        if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement)
+          this.changeUrl(symbolOfValue, sliderOne.value, sliderTwo.value);
       };
     } else {
       console.log(sliderOne);

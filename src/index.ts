@@ -16,7 +16,8 @@ export class App {
   searchText = '';
   filtersBlock = '';
   mainWithInner: Node | null = null;
-
+  params = new URLSearchParams(window.location.search);
+  filterold:string|null = this.params.get('filters')? this.params.get('filters'):null;
   drawCards() {
     const params = new URLSearchParams(window.location.search);
     this.filteredProducts = dataExample.products;
@@ -49,7 +50,7 @@ export class App {
       if (key === 'filters' && value !== '') {
         const checkbox = new Checkbox();
         this.filteredProducts = checkbox.filterProdducts(
-          value.slice(0, value.length - 1).split('.'),
+          value.split('.'),
           this.filteredProducts
         );
         checkbox.filteredValue(this.filteredProducts);
@@ -130,10 +131,10 @@ export class App {
     this.drawCards();
     //checkbox-filters
     const checkbox = new Checkbox();
-    const value = params.get('filters');
-    if (value) {
-      checkbox.drawcheckboxCategories(value.slice(0, value.length - 1).split('.'));
-      checkbox.drawcheckboxBrand(value.slice(0, value.length - 1).split('.'));
+     
+    if (this.filterold) {
+      checkbox.drawcheckboxCategories(this.filterold.split('.'));
+      checkbox.drawcheckboxBrand(this.filterold.split('.'));
     } else {
       checkbox.drawcheckboxCategories([]);
       checkbox.drawcheckboxBrand([]);
