@@ -17,6 +17,11 @@ export function createTemplate(product: Product): string {
   <div class="product__title">
     ${product.title}
   </div>
+  <div class="arrow__crums">
+  <a href="/"><span class="crum__main">STORE</span></a>>>><span"crum__category">${
+    product.category
+  }</span>>>><span"crum__brand">${product.brand}</span>>>><span"crum__name">${product.title}</span>
+</div>
   <div class="about__content">
     <div class="about__images">
       <div class="about__images-small">
@@ -58,9 +63,7 @@ export function createTemplate(product: Product): string {
         <p>€${product.price}</p>
         <button class="add__button">${
           products_in_cart.includes(
-
             parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1])
-
           )
             ? 'Remove from Cart'
             : 'Add to Cart'
@@ -95,7 +98,8 @@ export const urlRoute = (itemsrc: string): void => {
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
 const processLocation = (location: string) => {
   if (location === '/') {
-   location=location+urlRoutes['/']}
+    location = location + urlRoutes['/'];
+  }
 
   if (location.split('/')[1] === 'about') {
     if (maincontent)
@@ -111,11 +115,10 @@ window.onpopstate = (): void => {
   const location: string = parseLocation();
   if (location === '/') {
     urlRoutes['/'] = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
-    urlRoutes['/']?window.location.href=urlRoutes['/']:'';}
-  processLocation(location);  
+    urlRoutes['/'] ? (window.location.href = urlRoutes['/']) : '';
+  }
+  processLocation(location);
 };
 window.addEventListener('DOMContentLoaded', () => {
-  processLocation(parseLocation())
-  
+  processLocation(parseLocation());
 });
-
