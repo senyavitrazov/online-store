@@ -195,29 +195,10 @@ export class PopupPurchase {
         }
       }
     });
-    /*this.cardnumber?.addEventListener('keyup', function () {
-      const v = this.value;
-      const numberBox = this.parentElement;
-      if (numberBox) {
-        this.classList.add('err');
-        this.value = this.value.replace(/[^\d]/g, '');
-        if (!v.match(/[0-9]{16}/gim)) {
-          numberBox.setAttribute('data-value', 'invalid cardnumber length');
-        }
-        if (v.length > 16) {
-          this.value = v.slice(0, 16);
-          numberBox.removeAttribute('data-value');
-        } else {
-          numberBox.removeAttribute('data-value');
-          this.classList.remove('err');
-        }
-      }
-    });*/
 
     const confirm = this.popup.querySelector('button');
     confirm?.addEventListener('click', () => {
       if (this.isValid()) {
-        //TODO: to main and clear cart
       }
     });
   }
