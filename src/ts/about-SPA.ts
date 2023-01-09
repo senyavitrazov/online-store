@@ -102,7 +102,7 @@ maincontent?.addEventListener('click', (e: Event) => {
   if (bigPicture) bigPicture.innerHTML = `<img alt="Slide" src=${src}>`;
 });
 export const urlRoute = (itemsrc: string): void => {
-  window.history.pushState({}, '', window.location.origin + `/#/about/${itemsrc}`);
+  window.history.pushState({}, '', window.location.href.replace(window.location.search,'') + `#/about/${itemsrc}`);
   if (maincontent) maincontent.innerHTML = createTemplate(dataExample.products[itemsrc]);
 };
 const parseLocation = (): string => location.hash.slice(1).toLowerCase() || '/';
@@ -110,22 +110,22 @@ const processLocation = (location: string): void => {
   if (location === '/') {
     location = location + urlRoutes['/'];
   }
-console.log(location.split('/'))
-  if (location.split('/')[1] === 'about') {
+  if (location.split('/')[location.split('/').length-2] === 'about') {
     if (maincontent)
       maincontent.innerHTML = createTemplate(dataExample.products[location.split('/')[location.split('/').length - 1]]);
   }
-  if (location.split('/')[1] === 'cart') {
-    if (maincontent) maincontent.innerHTML = cart;
-    window.history.pushState({}, '', window.location.origin + `/#/cart`);
+  if (location.split('/')[location.split('/').length-1] === 'cart') {
+      if (maincontent) maincontent.innerHTML = cart;
+      window.history.pushState({}, '', window.location.href.replace(window.location.search,'').replace(`/#/cart`,'') + `/#/cart`);
     drawCart(products_in_cart);
   }
 };
 window.onpopstate = (): void => {
   const location: string = parseLocation();
-  if (location === '/') {
+  if (location[location.length-1] === '/') {
+    console.log('hi')
     urlRoutes['/'] = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
-    urlRoutes['/'] ? (window.location.href = urlRoutes['/']) : '';
+    urlRoutes['/'] ? (window.location.href = window.location.href.replace(window.location.search,'').slice(0,window.location.href.length-1)+urlRoutes['/'].slice(1)) : window.location.href;
   }
   processLocation(location);
 };
