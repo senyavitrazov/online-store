@@ -199,8 +199,23 @@ export class PopupPurchase {
     const confirm = this.popup.querySelector('button');
     confirm?.addEventListener('click', () => {
       if (this.isValid()) {
+        this.showSuccessMessage();
+        const container: HTMLDivElement | null = this.popup.querySelector('.popup__container');
+        if (container) container.style.display = 'none';
+        setTimeout(() => {
+          window.location.href = '/';
+          localStorage.removeItem('cartproducts');
+          localStorage.removeItem('totalproducts');
+        }, 5000);
       }
     });
+  }
+
+  showSuccessMessage() {
+    const message = document.createElement('div');
+    message.id = 'popup-success';
+    message.innerHTML = '<p>The purchase was successfully completed!</p>';
+    this.popup.append(message);
   }
 
   isValid() {
@@ -215,11 +230,14 @@ export class PopupPurchase {
     });
 
     for (const e of allInputs) {
-      if (e.hasAttribute('data-value')) {
-        this.validFlag = false;
-        break;
-      } else {
-        this.validFlag = !0;
+      const parent = e.parentElement;
+      if (parent) {
+        if (parent.hasAttribute('data-value')) {
+          this.validFlag = false;
+          return this.validFlag;
+        } else {
+          this.validFlag = !0;
+        }
       }
     }
 

@@ -142,17 +142,11 @@ class App {
     }
     checkbox.filteredValue(this.filteredProducts);
 
-    let popup: PopupPurchase | null = null;
-    if (this.mainWrapper instanceof HTMLElement) {
-      popup = new PopupPurchase(this.main);
-    }
-
     const viewChanger = document.querySelector('#view-change');
     if (viewChanger)
       viewChanger.addEventListener('click', () => {
         viewChanger.classList.toggle('active');
         this.productList?.classList.toggle('little');
-        popup && popup.togglePopup(this.main);
         document.querySelectorAll('product-card').forEach(e => {
           e.shadowRoot?.querySelector('.product-card')?.classList.toggle('little');
         });

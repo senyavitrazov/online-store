@@ -28,8 +28,8 @@ export const cart = `<div class="cart__main">
   <div><h5 class="active__promos">Active Promocodes:</h5><div class="active__promocode"><div class="rs promo hidden"><span>RS: </span> <span>10%</span> <button class="promo__add">ADD</button></div>
   <div class="rsschool promo hidden"> <span>RSSchool: </span> <span>20%</span> <button class="promo__add">ADD</button></div></div></div>
   <div class="promo__input"><input type="text" name="promo_input" placeholder="enter code" id="promo_input"></div>
-  <span class="promos">Test RS,RSSchool</span>
-  <button>BUY NOW</button>
+  <span class="promos">Test RS, RSSchool</span>
+  <button id="cart__buy-btn">buy now</button>
 </div>
 </div>
 `;
@@ -42,6 +42,7 @@ const totalstr: string | null = localStorage.getItem('totalproducts') ? localSto
 const total_in_cart: number[] = totalstr ? JSON.parse(totalstr) : new Array(products_in_cart.length).fill(1);
 let discount = 0;
 const maincontent = document.querySelector('main');
+
 document.addEventListener('click', (e: Event) => {
   const target = <HTMLElement>e.target;
   if (!target.matches('.cart__icon')) {
@@ -73,6 +74,7 @@ export const updateTotal = () => {
   }
 };
 updateTotal();
+
 export const updateCart = (number: number) => {
   if (products_in_cart.includes(number)) {
     products_in_cart.splice(products_in_cart.indexOf(number), 1);
@@ -88,6 +90,7 @@ export const updateCart = (number: number) => {
 
   updateTotal();
 };
+
 maincontent?.addEventListener('click', (e: Event) => {
   const targetButton = <HTMLElement>e.target;
   if (!targetButton.matches('.add__button')) {
