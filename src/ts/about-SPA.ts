@@ -1,6 +1,7 @@
 import dataExample from '../assets/data-exapmle.json';
 import { Product } from './product-card';
 import { cart, drawCart, products_in_cart } from './cart-SPA';
+import { PopupPurchase } from './popup';
 const main: string | null = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
 const aboutstr: string | null = localStorage.getItem('aboutproducts') ? localStorage.getItem('aboutproducts') : '';
 let about: number[] = [];
@@ -73,6 +74,14 @@ export function createTemplate(product: Product): string {
     </div>
   </div>
 </div>`;
+const buyButton = document.querySelector('.buy__button')
+  if(buyButton instanceof HTMLButtonElement){
+    buyButton.addEventListener('click',()=>{
+      let popup: PopupPurchase | null = null;
+      popup = new PopupPurchase(maincontent);
+     popup.togglePopup();
+    })
+  }
   return template;
 }
 localStorage.setItem('aboutproducts', JSON.stringify(about));

@@ -1,6 +1,7 @@
 import { Product } from './product-card';
 import dataExample from '../assets/data-exapmle.json';
 import { urlRoute } from './about-SPA';
+import { PopupPurchase } from './popup';
 export const cart = `<div class="cart__main">
 <div class="cart__products">
   <div class="products__title-and-controls">
@@ -151,6 +152,16 @@ export const drawCart = (products: number[]): void => {
       });
     }
   });
+  
+  const buyButton = document.getElementById('cart__buy-btn')
+  if(buyButton instanceof HTMLButtonElement){
+    buyButton.addEventListener('click',()=>{
+      let popup: PopupPurchase | null = null;
+      popup = new PopupPurchase(maincontent);
+     popup.togglePopup();
+    })
+  }
+
   if (pageNumbertext) {
     drawproducts(
       array.slice(
