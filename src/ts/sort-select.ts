@@ -31,7 +31,7 @@ export class SortSelect extends HTMLElement {
     if (oldValue === null) {
       oldValue = '00';
       params.set('sort', '00');
-      window.history.pushState(null, '', location.hash.slice(1) + '?' + params.toString());
+      //window.history.pushState(null, '', location.hash.slice(1) + '?' + params.toString());
     }
     let sortField = 0;
     this.reverseFlag = !!(+oldValue % 10);

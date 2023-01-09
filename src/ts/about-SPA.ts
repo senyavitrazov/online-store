@@ -110,7 +110,7 @@ const processLocation = (location: string): void => {
   if (location === '/') {
     location = location + urlRoutes['/'];
   }
-
+console.log(location.split('/'))
   if (location.split('/')[1] === 'about') {
     if (maincontent)
       maincontent.innerHTML = createTemplate(dataExample.products[location.split('/')[location.split('/').length - 1]]);
