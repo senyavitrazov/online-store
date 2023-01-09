@@ -116,7 +116,7 @@ const processLocation = (location: string): void => {
   }
   if (location.split('/')[location.split('/').length-1] === 'cart') {
       if (maincontent) maincontent.innerHTML = cart;
-      window.history.pushState({}, '', window.location.href.replace(window.location.search,'').replace(`/#/cart`,'') + `/#/cart`);
+      window.history.pushState({}, '', `/online-store/#/cart`);
     drawCart(products_in_cart);
   }
 };
@@ -125,7 +125,7 @@ window.onpopstate = (): void => {
   if (location[location.length-1] === '/') {
     console.log('hi')
     urlRoutes['/'] = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
-    urlRoutes['/'] ? (window.location.href = window.location.href.replace(window.location.search,'').slice(0,window.location.href.length-1)+urlRoutes['/'].slice(1)) : window.location.href;
+    urlRoutes['/'] ? (window.location.href = window.location.href.replace(window.location.search,'').slice(0,window.location.href.length-1)) : window.location.href;
   }
   processLocation(location);
 };
