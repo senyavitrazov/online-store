@@ -109,8 +109,9 @@ export class DualSlider extends HTMLElement {
 
    
     if (sliderOne && sliderTwo) {
-      fillColor();
-
+      
+      slideOne()
+      slideTwo()
       sliderOne.oninput = slideOne;
       sliderTwo.oninput = slideTwo;
       sliderOne.onchange = () => {
