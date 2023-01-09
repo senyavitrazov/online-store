@@ -74,13 +74,13 @@ export function createTemplate(product: Product): string {
     </div>
   </div>
 </div>`;
-const buyButton = document.querySelector('.buy__button')
-  if(buyButton instanceof HTMLButtonElement){
-    buyButton.addEventListener('click',()=>{
+  const buyButton = document.querySelector('.buy__button');
+  if (buyButton instanceof HTMLButtonElement) {
+    buyButton.addEventListener('click', () => {
       let popup: PopupPurchase | null = null;
       popup = new PopupPurchase(maincontent);
-     popup.togglePopup();
-    })
+      popup.togglePopup();
+    });
   }
   return template;
 }
@@ -91,12 +91,13 @@ const urlRoutes = {
 };
 const maincontent: HTMLElement | null = document.querySelector('main');
 maincontent?.addEventListener('click', (e: Event) => {
-  const targetPicture = <HTMLElement>e.target;
-  if (!targetPicture.matches('.picture-small')) {
+  const targetPicture = e.target;
+  if (targetPicture instanceof HTMLElement && !targetPicture.matches('.picture-small')) {
     return;
   }
   e.preventDefault();
-  const src: string | null = targetPicture.getAttribute('src');
+  const src: string | null =
+    targetPicture instanceof HTMLElement && targetPicture ? targetPicture.getAttribute('src') : '0';
   const bigPicture: HTMLDivElement | null = document.querySelector('.about__images-big');
   if (bigPicture) bigPicture.innerHTML = `<img alt="Slide" src=${src}>`;
 });
@@ -104,8 +105,8 @@ export const urlRoute = (itemsrc: string): void => {
   window.history.pushState({}, '', window.location.origin + `/#/about/${itemsrc}`);
   if (maincontent) maincontent.innerHTML = createTemplate(dataExample.products[itemsrc]);
 };
-const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
-const processLocation = (location: string) => {
+const parseLocation = (): string => location.hash.slice(1).toLowerCase() || '/';
+const processLocation = (location: string): void => {
   if (location === '/') {
     location = location + urlRoutes['/'];
   }
