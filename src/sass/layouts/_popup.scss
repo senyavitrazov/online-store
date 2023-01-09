@@ -282,3 +282,20 @@
   height: 20px;
   cursor: pointer;
 }
+
+
+#popup-success {
+  position: absolute;
+  width: 650px;
+  height: 150px;
+  background: white;
+  border: 1px solid $color-light-gray;
+  top: calc(50% - 100px);
+  left: calc(50% - 325px);
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+
+}

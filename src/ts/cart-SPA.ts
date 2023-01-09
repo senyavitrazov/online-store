@@ -23,27 +23,27 @@ export const cart = `<div class="cart__main">
 </div>
 <div class="cart__total">
   <h3>Summary</h3>
-  <div>Products:<span class="total__products">1</span></div>
-  <div class="price__total">Total:<span class="total__price">4495€</span></div>
+  <div>Products: <span class="total__products">1</span></div>
+  <div class="price__total">Total: <span class="total__price">4495€</span></div>
   <div><h5 class="active__promos">Active Promocodes:</h5><div class="active__promocode"><div class="rs promo hidden"><span>RS: </span> <span>10%</span> <button class="promo__add">ADD</button></div>
   <div class="rsschool promo hidden"> <span>RSSchool: </span> <span>20%</span> <button class="promo__add">ADD</button></div></div></div>
   <div class="promo__input"><input type="text" name="promo_input" placeholder="enter code" id="promo_input"></div>
-  <span class="promos">Test RS,RSSchool</span>
-  <button>BUY NOW</button>
+  <span class="promos">Test RS, RSSchool</span>
+  <button id="cart__buy-btn">buy now</button>
 </div>
 </div>
 `;
+export let products_in_cart: number[] = [];
+
 const cartnumber = document.querySelector('.cart__number');
 const cartprice = document.querySelector('.cart__price-number');
 const productstr: string | null = localStorage.getItem('cartproducts') ? localStorage.getItem('cartproducts') : '';
-export let products_in_cart: number[] = [];
-if (productstr) products_in_cart = JSON.parse(productstr);
 const totalstr: string | null = localStorage.getItem('totalproducts') ? localStorage.getItem('totalproducts') : null;
 const total_in_cart: number[] = totalstr ? JSON.parse(totalstr) : new Array(products_in_cart.length).fill(1);
-
+if (productstr) products_in_cart = JSON.parse(productstr);
 let discount = 0;
-
 const maincontent = document.querySelector('main');
+
 document.addEventListener('click', (e: Event) => {
   const target = <HTMLElement>e.target;
   if (!target.matches('.cart__icon')) {
@@ -66,7 +66,7 @@ export const updateTotal = () => {
     products_in_cart.forEach((el, index) => {
       price += Math.round(dataExample.products[el].price * total_in_cart[index] * (1 - discount));
     });
-    cartprice.innerHTML = `${price.toString()}€`;
+    cartprice.innerHTML = price + '$';
   }
   if (location.hash.slice(1).toLowerCase().split('/')[1] === 'cart') {
     const totlalproducts = document.querySelector('.total__products');
@@ -77,6 +77,7 @@ export const updateTotal = () => {
   }
 };
 updateTotal();
+
 export const updateCart = (number: number) => {
 
   if (products_in_cart.includes(number)) {
@@ -93,6 +94,7 @@ export const updateCart = (number: number) => {
 
   updateTotal();
 };
+
 maincontent?.addEventListener('click', (e: Event) => {
   const targetButton = <HTMLElement>e.target;
   if (!targetButton.matches('.add__button')) {
@@ -107,6 +109,7 @@ maincontent?.addEventListener('click', (e: Event) => {
     ? (targetButton.innerHTML = 'Remove from Cart')
     : (targetButton.innerHTML = 'Add to Cart');
 });
+
 export const drawCart = (products: number[]): void => {
   const pagelimitInput = <HTMLInputElement>document.getElementById('number_input');
   const pageNumber = document.querySelector('.page__number');
@@ -173,7 +176,6 @@ export const drawCart = (products: number[]): void => {
     });
   }
 
-
   pageNumber?.addEventListener('click', e => {
     const target = <HTMLElement>e.target;
     if (target.matches('.page__number-button-left')) {
@@ -201,12 +203,10 @@ export const drawCart = (products: number[]): void => {
           array.slice(
             parseInt(pagelimitInput.value) * (parseInt(pageNumbertext.innerHTML) - 1),
             parseInt(pagelimitInput.value) + parseInt(pagelimitInput.value) * (parseInt(pageNumbertext.innerHTML) - 1)
-
           ),
           parseInt(pageNumbertext.innerHTML),
           parseInt(pagelimitInput.value)
         );
-
       }
     }
   });
@@ -215,15 +215,13 @@ export const drawCart = (products: number[]): void => {
 };
 
 const drawproducts = (products: number[], page: number, limit: number): void => {
-let number = 0;
+  let number = 0;
   const carthtml: Element | null = document.querySelector('.products__list');
   if (carthtml) carthtml.innerHTML = '';
   for (let i = 0; i < products.length; i++) {
     const product: Product = dataExample.products[products[i]];
     const template = `<div class="cart__product">
-
         <div class="product__number">${number + 1 + (page - 1) * limit}</div>
-
         <div class="product__preview">
           <img src="${product.thumbnail}" />
           <div class="product__info">
@@ -266,7 +264,6 @@ let number = 0;
         const price = productCount[index].querySelector('.product__price');
         const stock = productCount[index].querySelector('.product__stock');
         if (pagequanttext && price && stock) {
-
           price.innerHTML = `€${
             parseInt(pagequanttext.innerHTML) !== parseInt(stock.innerHTML.split(':')[1])
               ? dataExample.products[products_in_cart[index + (page - 1) * limit]].price *
@@ -289,12 +286,10 @@ let number = 0;
         const price = productCount[index].querySelector('.product__price');
         const stock = productCount[index].querySelector('.product__stock');
         if (pagequanttext && price && stock) {
-
           price.innerHTML = `€${
             parseInt(pagequanttext.innerHTML) !== 0
               ? dataExample.products[products_in_cart[index + (page - 1) * limit]].price *
                 (parseInt(pagequanttext.innerHTML) - 1)
-
               : price.innerHTML.slice(1)
           }`;
           pagequanttext.innerHTML =
@@ -306,14 +301,11 @@ let number = 0;
           if (parseInt(pagequanttext.innerHTML) === 0) {
             products_in_cart.splice(index + (page - 1) * limit, 1);
             total_in_cart.splice(index + (page - 1) * limit, 1);
-
             localStorage.setItem('cartproducts', JSON.stringify(products_in_cart));
             localStorage.setItem('totalproducts', JSON.stringify(total_in_cart));
             drawCart(products_in_cart);
             updateTotal();
           }
-
-
         }
       }
     });
