@@ -155,14 +155,6 @@ class App {
       checkbox.drawcheckboxBrand([]);
     }
     checkbox.filteredValue(this.filteredProducts);
-
-
-    let popup: PopupPurchase | null = null;
-    if (this.mainWrapper instanceof HTMLElement) {
-      popup = new PopupPurchase(this.main);
-    }
-
-
     const viewChanger = document.querySelector('#view-change');
     if (viewChanger) {
       if (params.has('view')) {

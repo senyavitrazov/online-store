@@ -23,13 +23,13 @@ export const cart = `<div class="cart__main">
 </div>
 <div class="cart__total">
   <h3>Summary</h3>
-  <div>Products:<span class="total__products">1</span></div>
-  <div class="price__total">Total:<span class="total__price">4495€</span></div>
+  <div>Products: <span class="total__products">1</span></div>
+  <div class="price__total">Total: <span class="total__price">4495€</span></div>
   <div><h5 class="active__promos">Active Promocodes:</h5><div class="active__promocode"><div class="rs promo hidden"><span>RS: </span> <span>10%</span> <button class="promo__add">ADD</button></div>
   <div class="rsschool promo hidden"> <span>RSSchool: </span> <span>20%</span> <button class="promo__add">ADD</button></div></div></div>
   <div class="promo__input"><input type="text" name="promo_input" placeholder="enter code" id="promo_input"></div>
-  <span class="promos">Test RS,RSSchool</span>
-  <button>BUY NOW</button>
+  <span class="promos">Test RS, RSSchool</span>
+  <button id="cart__buy-btn">buy now</button>
 </div>
 </div>
 `;
@@ -40,10 +40,10 @@ const cartprice = document.querySelector('.cart__price-number');
 const productstr: string | null = localStorage.getItem('cartproducts') ? localStorage.getItem('cartproducts') : '';
 const totalstr: string | null = localStorage.getItem('totalproducts') ? localStorage.getItem('totalproducts') : null;
 const total_in_cart: number[] = totalstr ? JSON.parse(totalstr) : new Array(products_in_cart.length).fill(1);
-
 if (productstr) products_in_cart = JSON.parse(productstr);
 let discount = 0;
 const maincontent = document.querySelector('main');
+
 document.addEventListener('click', (e: Event) => {
   const target = <HTMLElement>e.target;
   if (!target.matches('.cart__icon')) {
