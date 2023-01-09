@@ -9,11 +9,17 @@
     width: 100%;
     font-size: 2.4rem;
     text-transform: capitalize;
-    margin-bottom: 30px;
   }
   .arrow__crums{
     margin:20px 0px;
     text-align: center  ;
+    text-transform: uppercase;
+    padding: 0 10px;
+    span {
+      display: inline-block;
+      padding: 0 15px;
+    }
+    margin-bottom: 30px;
     a{text-decoration: none;}
   }
   .about__content {

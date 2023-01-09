@@ -2,7 +2,6 @@ import { DualSlider } from './ts/dual-slider';
 import { ProductCard, Product } from './ts/product-card';
 import { Checkbox } from './ts/checkbox-filter';
 
-
 import { PopupPurchase } from './ts/popup';
 
 import { SortSelect, SortingField } from './ts/sort-select';
@@ -10,9 +9,7 @@ import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
 import './ts/cart-SPA';
 
-
 class App {
-
   productsData: Product[] = dataExample.products;
   filteredProducts: Product[] = dataExample.products;
   body = document.querySelector('body');
@@ -27,7 +24,7 @@ class App {
   mainWithInner: Node | null = null;
 
   params = new URLSearchParams(window.location.search);
-  filterold:string|null = this.params.get('filters')? this.params.get('filters'):null;
+  filterold: string | null = this.params.get('filters') ? this.params.get('filters') : null;
 
   drawCards() {
     const params = new URLSearchParams(window.location.search);
@@ -61,7 +58,6 @@ class App {
       if (key === 'filters' && value !== '') {
         const checkbox = new Checkbox();
         this.filteredProducts = checkbox.filterProdducts(
-
           value.split('.'),
 
           this.filteredProducts
@@ -102,7 +98,6 @@ class App {
 
     this.mainWrapper?.insertAdjacentHTML('afterbegin', this.filtersBlock);
 
-
     if (!this.productsBlock) {
       this.productsBlock = document.createElement('div');
       this.productsBlock.classList.add('products');
@@ -110,7 +105,8 @@ class App {
         '<div class="products__top"><div class="products__search search"><button class="search__button"></button><input type="text" ' +
         'name="search" id="search-input" placeholder="search product"></div><span id="founded-amount">Found: 100</span><button id="view-change"></button><sort-select></sort-select></div>';
 
-      this.mainWrapper?.append(this.productsBlock);    }
+      this.mainWrapper?.append(this.productsBlock);
+    }
 
     const searchInput = this.productsBlock.querySelector('input');
     if (searchInput) searchInput.value = this.searchText;
@@ -149,7 +145,6 @@ class App {
     if (this.filterold) {
       checkbox.drawcheckboxCategories(this.filterold.split('.'));
       checkbox.drawcheckboxBrand(this.filterold.split('.'));
-
     } else {
       checkbox.drawcheckboxCategories([]);
       checkbox.drawcheckboxBrand([]);
