@@ -1,9 +1,6 @@
 import { DualSlider } from './ts/dual-slider';
 import { ProductCard, Product } from './ts/product-card';
 import { Checkbox } from './ts/checkbox-filter';
-
-import { PopupPurchase } from './ts/popup';
-
 import { SortSelect, SortingField } from './ts/sort-select';
 import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
