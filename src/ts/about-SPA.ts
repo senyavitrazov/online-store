@@ -18,9 +18,9 @@ export function createTemplate(product: Product): string {
     ${product.title}
   </div>
   <div class="arrow__crums">
-  <a href="/"><span class="crum__main">STORE</span></a>>>><span"crum__category">${
+  <a href="/"><span class="crum__main">STORE</span></a> >>> <span class="crum__category">${
     product.category
-  }</span>>>><span"crum__brand">${product.brand}</span>>>><span"crum__name">${product.title}</span>
+  }</span> >>> <span class="crum__brand">${product.brand}</span> >>> <span class="crum__name">${product.title}</span>
 </div>
   <div class="about__content">
     <div class="about__images">
