@@ -12,7 +12,9 @@ export class DualSlider extends HTMLElement {
     const params = new URLSearchParams(window.location.search);
     const limits = l + 't' + r;
     params.set(`ds${type ? 'p' : 'a'}`, limits);
-    window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+
+    window.history.pushState(null, '', location.hash.slice(1) + '?' + params.toString());
+
   }
 
   constructor() {
@@ -81,7 +83,7 @@ export class DualSlider extends HTMLElement {
         if (sliderTrack instanceof HTMLDivElement) {
           sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #ff0000 ${percent1}% , #ff0000 ${percent2}%, #dadae5 ${percent2}%)`;
         }
-        this.changeUrl(symbolOfValue, sliderOne.value, sliderTwo.value);
+
       }
     };
 
@@ -105,16 +107,23 @@ export class DualSlider extends HTMLElement {
       }
     }
 
+   
     if (sliderOne && sliderTwo) {
-      slideOne();
-      slideTwo();
+      fillColor();
+
       sliderOne.oninput = slideOne;
       sliderTwo.oninput = slideTwo;
       sliderOne.onchange = () => {
         this.dispatchEvent(new Event('filterchange', { bubbles: true }));
+
+        if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement)
+          this.changeUrl(symbolOfValue, sliderOne.value, sliderTwo.value);
       };
       sliderTwo.onchange = () => {
         this.dispatchEvent(new Event('filterchange', { bubbles: true }));
+        if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement)
+          this.changeUrl(symbolOfValue, sliderOne.value, sliderTwo.value);
+
       };
     } else {
       console.log(sliderOne);
