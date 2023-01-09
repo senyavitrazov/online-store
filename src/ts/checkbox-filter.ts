@@ -2,6 +2,9 @@ import dataExample from '../assets/data-exapmle.json';
 import { Product } from './product-card';
 export class Checkbox {
   filterargs: Set<string> = new Set();
+  params = new URLSearchParams(window.location.search);
+  filterold: string | null = this.params.get('filters') ? this.params.get('filters') : null;
+
   drawcheckboxCategories(filter: string[]): void {
     const items: Array<Product> = dataExample.products;
     const categories: Set<string> = new Set();
@@ -27,8 +30,11 @@ export class Checkbox {
     catinputs.forEach(el => {
       el.addEventListener('change', () => {
         this.filterargs.has(el.id) ? this.filterargs.delete(el.id) : this.filterargs.add(el.id);
+        if (filter.length !== 0)
+          filter.forEach(el => (this.filterargs.has(el) ? this.filterargs.delete(el) : this.filterargs.add(el)));
         const filteredargs: string[] = Array.from(this.filterargs);
-        this.filterProdducts(filteredargs, dataExample.products);
+        this.changeUrl(filteredargs);
+
         document.querySelector('main')?.dispatchEvent(new Event('filterchange', { bubbles: true }));
       });
     });
@@ -62,11 +68,13 @@ export class Checkbox {
     checkboxElement?.appendChild(fragment);
     const brandinputs: NodeListOf<HTMLElement> = document.getElementsByName('brand-input');
     brandinputs.forEach(el => {
-      el.addEventListener('change', () => {
+         el.addEventListener('change', () => {
         this.filterargs.has(el.id) ? this.filterargs.delete(el.id) : this.filterargs.add(el.id);
-
+        if (filter.length !== 0)
+          filter.forEach(el => (this.filterargs.has(el) ? this.filterargs.delete(el) : this.filterargs.add(el)));
         const filteredargs: string[] = Array.from(this.filterargs);
-        this.filterProdducts(filteredargs, dataExample.products);
+        this.changeUrl(filteredargs);
+
         document.querySelector('main')?.dispatchEvent(new Event('filterchange', { bubbles: true }));
       });
     });
@@ -79,9 +87,20 @@ export class Checkbox {
   }
   changeUrl(filterargs: string[]): void {
     const params = new URLSearchParams(window.location.search);
-    let filters = '';
-    filterargs.map(el => (filters += `${el}.`));
-    params.set('filters', filters);
+ 
+    if (this.filterold) {
+      let temp = this.filterold.includes('.') ? this.filterold.split('.') : [this.filterold];
+      temp = temp.filter(el => !filterargs.includes(el));
+
+      let filternew = filterargs.join('.') + '.' + temp.join('.');
+
+      filternew = filternew[filternew.length - 1] === '.' ? filternew.slice(0, filternew.length - 1) : filternew;
+   
+      params.set('filters', filternew.replace(`${temp}`, ''));
+    } else {
+      params.set('filters', filterargs.join('.'));
+    }
+ 
     window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
   }
   filteredValue(productsData: Product[]): void {
@@ -97,20 +116,7 @@ export class Checkbox {
     });
   }
   filterProdducts(filterinput: string[], productsinput: Product[]): Product[] {
-    //let categories = 0;
-    //let brands = 0;
 
-    /* productsinput.forEach((el: Product) => {
-      filterinput.forEach(el2 => {
-        if (el2 === el.category) {
-          categories += 1;
-        }
-        if (el2 === el.brand) {
-          brands += 1;
-        }
-      });
-      if (categories > 0 && brands > 0)
-    });*/
     let productsData: Product[] =
       filterinput.length === 0
         ? productsinput

@@ -17,6 +17,10 @@
   &__icon {
     background-color: red;
     background-image: url(../assets/bag-icon.svg);
+    cursor: pointer;
+    &:hover {
+      filter: brightness(83%)
+    }
     @extend %icon-circle;
   }
 

@@ -33,13 +33,14 @@ export const cart = `<div class="cart__main">
 </div>
 </div>
 `;
+export let products_in_cart: number[] = [];
+
 const cartnumber = document.querySelector('.cart__number');
 const cartprice = document.querySelector('.cart__price-number');
 const productstr: string | null = localStorage.getItem('cartproducts') ? localStorage.getItem('cartproducts') : '';
-export let products_in_cart: number[] = [];
-if (productstr) products_in_cart = JSON.parse(productstr);
 const totalstr: string | null = localStorage.getItem('totalproducts') ? localStorage.getItem('totalproducts') : null;
 const total_in_cart: number[] = totalstr ? JSON.parse(totalstr) : new Array(products_in_cart.length).fill(1);
+if (productstr) products_in_cart = JSON.parse(productstr);
 let discount = 0;
 const maincontent = document.querySelector('main');
 
@@ -50,7 +51,9 @@ document.addEventListener('click', (e: Event) => {
   }
   e.preventDefault();
   if (maincontent) maincontent.innerHTML = cart;
-  window.history.pushState({}, '', window.location.origin + `/cart`);
+
+  window.history.pushState({}, '', window.location.origin + `/#/cart`);
+
   drawCart(products_in_cart);
 });
 
@@ -63,9 +66,9 @@ export const updateTotal = () => {
     products_in_cart.forEach((el, index) => {
       price += Math.round(dataExample.products[el].price * total_in_cart[index] * (1 - discount));
     });
-    cartprice.innerHTML = `${price.toString()}€`;
+    cartprice.innerHTML = price + '$';
   }
-  if (window.location.pathname.split('/')[1] === 'cart') {
+  if (location.hash.slice(1).toLowerCase().split('/')[1] === 'cart') {
     const totlalproducts = document.querySelector('.total__products');
     const totlalprice = document.querySelector('.total__price');
     if (totlalproducts)
@@ -76,6 +79,7 @@ export const updateTotal = () => {
 updateTotal();
 
 export const updateCart = (number: number) => {
+
   if (products_in_cart.includes(number)) {
     products_in_cart.splice(products_in_cart.indexOf(number), 1);
     total_in_cart.splice(products_in_cart.indexOf(number), 1);
@@ -97,13 +101,15 @@ maincontent?.addEventListener('click', (e: Event) => {
     return;
   }
   e.preventDefault();
-  updateCart(parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]));
+  console.log(parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1]));
+  updateCart(parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1]));
   products_in_cart.includes(
-    parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length - 1])
+    parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1])
   )
     ? (targetButton.innerHTML = 'Remove from Cart')
     : (targetButton.innerHTML = 'Add to Cart');
 });
+
 export const drawCart = (products: number[]): void => {
   const pagelimitInput = <HTMLInputElement>document.getElementById('number_input');
   const pageNumber = document.querySelector('.page__number');

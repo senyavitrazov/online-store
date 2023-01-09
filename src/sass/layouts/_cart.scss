@@ -149,21 +149,23 @@
       margin-top: 15px;
       font-size: 50%;
       text-align: center;
-      div{
-        display:flex;
+      div {
+        display: flex;
         justify-content: space-between;
         align-items: center;
         span {
           justify-self: flex-start;
         }
-        button{
+        button {
           width: 35%;
           font-size: 70%;
           margin: 0;
           padding: 10px;
         }
       }
-      .hidden{display: none;}
+      .hidden {
+        display: none;
+      }
     }
     .promo__input {
       display: flex;
@@ -198,6 +200,13 @@
       }
       margin: 3rem auto 1rem;
     }
+    button:hover{
+     background-color: yellow;     
+     color:red; 
+    }
+    button:active{
+      background-color: green;     
+     }
   }
 }
 
