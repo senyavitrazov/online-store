@@ -186,21 +186,25 @@ $border: 1px solid $value;
         color: wheat;
       }
     }
-    .active__promocode{
+    .active__promocode {
       font-size: 50%;
       text-align: center;
-      div{
-        display:flex;
+      div {
+        display: flex;
         justify-content: space-between;
         align-items: center;
-        span{justify-self: flex-start;}
-        button{
+        span {
+          justify-self: flex-start;
+        }
+        button {
           width: 35%;
           font-size: 70%;
           margin: 0;
         }
       }
-      .hidden{display: none;}
+      .hidden {
+        display: none;
+      }
     }
     .promo__input {
       display: flex;
@@ -235,5 +239,12 @@ $border: 1px solid $value;
       width: 50%;
       margin: 3rem auto 1rem;
     }
+    button:hover{
+     background-color: yellow;     
+     color:red; 
+    }
+    button:active{
+      background-color: green;     
+     }
   }
 }

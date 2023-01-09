@@ -51,7 +51,9 @@ document.addEventListener('click', (e: Event) => {
   }
   e.preventDefault();
   if (maincontent) maincontent.innerHTML = cart;
-  window.history.pushState({}, '', window.location.origin + `/cart`);
+
+  window.history.pushState({}, '', window.location.origin + `/#/cart`);
+
   drawCart(products_in_cart);
 });
 
@@ -66,7 +68,7 @@ export const updateTotal = () => {
     });
     cartprice.innerHTML = price + '$';
   }
-  if (window.location.pathname.split('/')[1] === 'cart') {
+  if (location.hash.slice(1).toLowerCase().split('/')[1] === 'cart') {
     const totlalproducts = document.querySelector('.total__products');
     const totlalprice = document.querySelector('.total__price');
     if (totlalproducts)
@@ -77,6 +79,7 @@ export const updateTotal = () => {
 updateTotal();
 
 export const updateCart = (number: number) => {
+
   if (products_in_cart.includes(number)) {
     products_in_cart.splice(products_in_cart.indexOf(number), 1);
     total_in_cart.splice(products_in_cart.indexOf(number), 1);
@@ -98,9 +101,10 @@ maincontent?.addEventListener('click', (e: Event) => {
     return;
   }
   e.preventDefault();
-  updateCart(parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]));
+  console.log(parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1]));
+  updateCart(parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1]));
   products_in_cart.includes(
-    parseInt(window.location.pathname.split('/')[window.location.pathname.split('/').length - 1])
+    parseInt(location.hash.slice(1).toLowerCase().split('/')[location.hash.slice(1).split('/').length - 1])
   )
     ? (targetButton.innerHTML = 'Remove from Cart')
     : (targetButton.innerHTML = 'Add to Cart');

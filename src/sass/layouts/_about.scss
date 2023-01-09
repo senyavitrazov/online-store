@@ -11,7 +11,11 @@
     text-transform: capitalize;
     margin-bottom: 30px;
   }
-
+  .arrow__crums{
+    margin:20px 0px;
+    text-align: center  ;
+    a{text-decoration: none;}
+  }
   .about__content {
     display: flex;
     gap: 7%;

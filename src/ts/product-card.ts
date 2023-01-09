@@ -90,13 +90,14 @@ export class ProductCard extends HTMLElement {
 
       cart__button?.addEventListener('click', (e: Event) => {
         const target = <HTMLElement>e.target;
+        const maincontents: string | undefined = window.location.pathname+window.location.search;
+        localStorage.setItem('mainc', maincontents ? maincontents : 'hello');
 
         const src = this.getAttribute('src');
 
         if (!target.matches('.product-card__button')) {
           if (src) {
-            const maincontents: string | undefined = document.querySelector('main')?.innerHTML;
-            localStorage.setItem('mainc', maincontents ? maincontents : 'hello');
+
             urlRoute(src);
             createTemplate(dataExample.products[parseInt(src)]);
           }
