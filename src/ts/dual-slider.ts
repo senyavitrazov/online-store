@@ -12,7 +12,7 @@ export class DualSlider extends HTMLElement {
     const params = new URLSearchParams(window.location.search);
     const limits = l + 't' + r;
     params.set(`ds${type ? 'p' : 'a'}`, limits);
-    // window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
+     window.history.pushState(null, '', location.hash.slice(1) + '?' + params.toString());
   }
 
   constructor() {
@@ -74,7 +74,7 @@ export class DualSlider extends HTMLElement {
     const sliderTrack = shadow.querySelector('.slider-track');
     const sliderMaxValue = sliderOne instanceof HTMLInputElement ? sliderOne.max : null;
 
-    const fillColor = () => {
+     const fillColor = () => {
       if (sliderOne instanceof HTMLInputElement && sliderTwo instanceof HTMLInputElement && sliderMaxValue !== null) {
         const percent1: number = (+sliderOne.value / +sliderMaxValue) * 100;
         const percent2: number = (+sliderTwo.value / +sliderMaxValue) * 100;
@@ -106,8 +106,8 @@ export class DualSlider extends HTMLElement {
     }
 
     if (sliderOne && sliderTwo) {
-      slideOne();
-      slideTwo();
+       
+       
       sliderOne.oninput = slideOne;
       sliderTwo.oninput = slideTwo;
       sliderOne.onchange = () => {

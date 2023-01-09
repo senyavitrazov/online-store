@@ -36,6 +36,7 @@ export class Checkbox {
       const thisInput = document.getElementById(`${el}`);
       if (thisInput instanceof HTMLInputElement) {
         thisInput.checked = true;
+        
       }
     });
   }
@@ -97,20 +98,6 @@ export class Checkbox {
     });
   }
   filterProdducts(filterinput: string[], productsinput: Product[]): Product[] {
-    //let categories = 0;
-    //let brands = 0;
-
-    /* productsinput.forEach((el: Product) => {
-      filterinput.forEach(el2 => {
-        if (el2 === el.category) {
-          categories += 1;
-        }
-        if (el2 === el.brand) {
-          brands += 1;
-        }
-      });
-      if (categories > 0 && brands > 0)
-    });*/
     let productsData: Product[] =
       filterinput.length === 0
         ? productsinput

@@ -6,7 +6,7 @@ import dataExample from './assets/data-exapmle.json';
 import './ts/about-SPA';
 import './ts/cart-SPA';
 
-class App {
+export class App {
   productsData: Product[] = dataExample.products;
   filteredProducts: Product[] = dataExample.products;
   body = document.querySelector('body');
@@ -164,7 +164,7 @@ class App {
     }
     if (this.main) this.mainWithInner = this.main.cloneNode(true);
     document.querySelector('#clear-filters')?.addEventListener('click', () => {
-      // window.history.pushState(null, '', window.location.pathname + '?dsp=10t1749&dsa=2t150&sort=00');
+       window.history.pushState(null, '', window.location.pathname + '?dsp=10t1749&dsa=2t150&sort=00');
       if (this.main && this.mainWithInner instanceof HTMLElement) this.main.innerHTML = this.mainWithInner.innerHTML;
     });
     this.main?.addEventListener('filterchange', this.drawCards.bind(this));

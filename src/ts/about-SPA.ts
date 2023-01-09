@@ -1,24 +1,9 @@
 import dataExample from '../assets/data-exapmle.json';
 import { Product } from './product-card';
-import { Checkbox } from './checkbox-filter';
 import { cart, drawCart, products_in_cart } from './cart-SPA';
 const main: string | null = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
-//let src2 = '';
 const aboutstr: string | null = localStorage.getItem('aboutproducts') ? localStorage.getItem('aboutproducts') : '';
 let about: number[] = [];
-/*document.addEventListener('click', (e: Event) => {
-  const target = <HTMLElement>e.target;
-  if (!target.matches('product-card')) {
-    return;
-  }
-  e.preventDefault();
-  const maincontents: string | undefined = document.querySelector('main')?.innerHTML;
-  localStorage.setItem('mainc', maincontents ? maincontents : 'hello');
-  const src: string | null = target.getAttribute('src');
-  if (src) src2 = src;
-  urlRoute(src2);
-  createTemplate(dataExample.products[src2]);
-});*/
 dataExample.products.forEach((el: Product, idx: number): void => {
   about.push(idx);
 });
@@ -108,25 +93,13 @@ export const urlRoute = (itemsrc: string): void => {
 const parseLocation = () => location.hash.slice(1).toLowerCase() || '/';
 const processLocation = (location: string) => {
   if (location === '/') {
-    urlRoutes['/'] = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
-    if (maincontent) maincontent.innerHTML = urlRoutes['/'] ? urlRoutes['/'] : 'hello';
-    const checkbox = new Checkbox();
-    const params = new URLSearchParams(window.location.search);
-    const value = params.get('filters');
-    if (value) {
-      checkbox.drawcheckboxCategories(value.slice(0, value.length - 1).split('.'));
-      checkbox.drawcheckboxBrand(value.slice(0, value.length - 1).split('.'));
-    } else {
-      checkbox.drawcheckboxCategories([]);
-      checkbox.drawcheckboxBrand([]);
-    }
-  }
+   location=location+urlRoutes['/']}
   if (location.split('/')[1] === 'about') {
     if (maincontent)
       maincontent.innerHTML = createTemplate(dataExample.products[location.split('/')[location.split('/').length - 1]]);
   }
   if (location.split('/')[1] === 'cart') {
-    console.log('hi');
+     
     if (maincontent) maincontent.innerHTML = cart;
     window.history.pushState({}, '', window.location.origin + `/#/cart`);
     drawCart(products_in_cart);
@@ -134,6 +107,12 @@ const processLocation = (location: string) => {
 };
 window.onpopstate = (): void => {
   const location: string = parseLocation();
-  processLocation(location);
+  if (location === '/') {
+    urlRoutes['/'] = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
+    urlRoutes['/']?window.location.href=urlRoutes['/']:'';}
+  processLocation(location);  
 };
-window.addEventListener('DOMContentLoaded', () => processLocation(parseLocation()));
+window.addEventListener('DOMContentLoaded', () => {
+  processLocation(parseLocation())
+  
+});
