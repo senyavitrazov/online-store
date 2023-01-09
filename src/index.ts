@@ -64,6 +64,7 @@ class App {
     }
     let i = 0;
     this.productList.innerHTML = '';
+    if (!this.filteredProducts.length) this.productList.innerHTML = 'No products found';
     while (i < this.filteredProducts.length) {
       this.productList.innerHTML += `<product-card src="${this.filteredProducts[i].id - 1}"></product-card>`;
       i++;
@@ -148,16 +149,25 @@ class App {
     }
 
     const viewChanger = document.querySelector('#view-change');
-    if (viewChanger)
+    if (viewChanger) {
+      if (params.has('view')) {
+        viewChanger.classList.add('active');
+        this.productList?.classList.add('little');
+        document.querySelectorAll('product-card').forEach(e => {
+          e.shadowRoot?.querySelector('.product-card')?.classList.add('little');
+        });
+      }
       viewChanger.addEventListener('click', () => {
+        params.has('view') ? params.delete('view') : params.set('view', '1');
         viewChanger.classList.toggle('active');
         this.productList?.classList.toggle('little');
-        popup && popup.togglePopup(this.main);
+        // popup && popup.togglePopup(this.main);
         document.querySelectorAll('product-card').forEach(e => {
           e.shadowRoot?.querySelector('.product-card')?.classList.toggle('little');
         });
+        window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
       });
-
+    }
     const copyFilterButton = document.querySelector('#copy-filters');
     if (copyFilterButton) {
       copyFilterButton.addEventListener('click', () => {
