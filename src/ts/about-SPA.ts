@@ -102,7 +102,7 @@ maincontent?.addEventListener('click', (e: Event) => {
   if (bigPicture) bigPicture.innerHTML = `<img alt="Slide" src=${src}>`;
 });
 export const urlRoute = (itemsrc: string): void => {
-  window.history.pushState({}, '', window.location.href.replace(window.location.search,'') + `#/about/${itemsrc}`);
+  window.history.pushState({}, '', window.location.origin+`online-store/#/about/${itemsrc}`);
   if (maincontent) maincontent.innerHTML = createTemplate(dataExample.products[itemsrc]);
 };
 const parseLocation = (): string => location.hash.slice(1).toLowerCase() || '/';
@@ -116,7 +116,7 @@ const processLocation = (location: string): void => {
   }
   if (location.split('/')[location.split('/').length-1] === 'cart') {
       if (maincontent) maincontent.innerHTML = cart;
-      window.history.pushState({}, '', `/online-store/#/cart`);
+      window.history.pushState({}, '', window.location.origin+"online-store/#/cart");
     drawCart(products_in_cart);
   }
 };
