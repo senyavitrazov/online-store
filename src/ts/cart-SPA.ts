@@ -53,7 +53,7 @@ document.addEventListener('click', (e: Event):void => {
   e.preventDefault();
   if (maincontent) maincontent.innerHTML = cart;
 
-  window.history.pushState({}, '', window.location.origin + `/#/cart`);
+  window.history.pushState({}, '', window.location.origin+"/online-store/#/cart");
 
   drawCart(products_in_cart);
 });
