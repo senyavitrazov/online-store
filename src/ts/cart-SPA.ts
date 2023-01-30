@@ -2,6 +2,7 @@ import { Product } from './product-card';
 import dataExample from '../assets/data-exapmle.json';
 import { urlRoute } from './about-SPA';
 import { PopupPurchase } from './popup';
+//Cart Template
 export const cart = `<div class="cart__main">
 <div class="cart__products">
   <div class="products__title-and-controls">
@@ -57,7 +58,7 @@ document.addEventListener('click', (e: Event):void => {
 
   drawCart(products_in_cart);
 });
-
+//Update Total Products and Price
 export const updateTotal = () :void => {
   if (cartnumber)
     cartnumber.innerHTML =
@@ -78,7 +79,7 @@ export const updateTotal = () :void => {
   }
 };
 updateTotal();
-
+//Update Cart on Product add
 export const updateCart = (number: number) : void => {
 
   if (products_in_cart.includes(number)) {
@@ -116,51 +117,9 @@ export const drawCart = (products: number[]): void => {
   const pageNumbertext:HTMLElement|null = document.querySelector('.page__number-count');
   const array:number[] = products;
   const promos:string[] = ['rs', 'rsschool'];
-  const promoInput =  document.getElementById('promo_input');
-  const promoaddButton = document.querySelectorAll('.promo__add');
-  promoaddButton.forEach(el => {
-    el.addEventListener('click', () => {
-      if (el.parentElement?.className.includes('active')) {
-        el.parentElement?.classList.remove('active');
-        el.innerHTML = 'ADD';
-        promoInput instanceof HTMLInputElement &&!promos.includes(promoInput.value.toLowerCase()) ? el.parentElement.classList.add('hidden') : '';
-        if (el.previousElementSibling) discount -= parseInt(el.previousElementSibling?.innerHTML.slice(0, -1)) / 100;
-        updateTotal();
-      } else {
-        el.parentElement?.classList.add('active');
-
-        if (el.previousElementSibling) discount += parseInt(el.previousElementSibling?.innerHTML.slice(0, -1)) / 100;
-        el.innerHTML = 'REMOVE';
-        updateTotal();
-      }
-    });
-  });
-  promoInput?.addEventListener('input', ():void => {
-    if (promoInput instanceof HTMLInputElement &&promos.includes(promoInput.value.toLowerCase())) {
-      const promoactive: HTMLElement | null = document.querySelector(`.${promoInput.value.toLowerCase()}`);
-      promoactive?.classList.toggle('hidden');
-      promoactive?.className.includes('active') ? promoactive?.classList.toggle('hidden') : '';
-    } else {
-      const promoList = document.querySelectorAll('.promo');
-      promoList.forEach(el => {
-        if (el.className.includes('active')) {
-          return;
-        } else {
-          el.classList.add('hidden');
-        }
-      });
-    }
-  });
   
-  const buyButton = document.getElementById('cart__buy-btn')
-  if(buyButton instanceof HTMLButtonElement){
-    buyButton.addEventListener('click',()=>{
-      let popup: PopupPurchase | null = null;
-      popup = new PopupPurchase(maincontent);
-     popup.togglePopup();
-    })
-  }
-
+  addPromoListeners(promos);
+  
   if (pageNumbertext&&pagelimitInput instanceof HTMLInputElement) {
     drawproducts(
       array.slice(
@@ -224,6 +183,52 @@ export const drawCart = (products: number[]): void => {
   updateTotal();
 };
 
+function addPromoListeners(promos:string[]):void {
+  const promoInput =  document.getElementById('promo_input');
+  const promoaddButton = document.querySelectorAll('.promo__add');
+  promoaddButton.forEach(el => {
+    el.addEventListener('click', () => {
+      if (el.parentElement?.className.includes('active')) {
+        el.parentElement?.classList.remove('active');
+        el.innerHTML = 'ADD';
+        promoInput instanceof HTMLInputElement &&!promos.includes(promoInput.value.toLowerCase()) ? el.parentElement.classList.add('hidden') : '';
+        if (el.previousElementSibling) discount -= parseInt(el.previousElementSibling?.innerHTML.slice(0, -1)) / 100;
+        updateTotal();
+      } else {
+        el.parentElement?.classList.add('active');
+
+        if (el.previousElementSibling) discount += parseInt(el.previousElementSibling?.innerHTML.slice(0, -1)) / 100;
+        el.innerHTML = 'REMOVE';
+        updateTotal();
+      }
+    });
+  });
+  promoInput?.addEventListener('input', ():void => {
+    if (promoInput instanceof HTMLInputElement &&promos.includes(promoInput.value.toLowerCase())) {
+      const promoactive: HTMLElement | null = document.querySelector(`.${promoInput.value.toLowerCase()}`);
+      promoactive?.classList.toggle('hidden');
+      promoactive?.className.includes('active') ? promoactive?.classList.toggle('hidden') : '';
+    } else {
+      const promoList = document.querySelectorAll('.promo');
+      promoList.forEach(el => {
+        if (el.className.includes('active')) {
+          return;
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+    }
+  });
+  const buyButton = document.getElementById('cart__buy-btn')
+  if(buyButton instanceof HTMLButtonElement){
+    buyButton.addEventListener('click',()=>{
+      let popup: PopupPurchase | null = null;
+      popup = new PopupPurchase(maincontent);
+     popup.togglePopup();
+    })
+  }
+}
+//Cart Product Template
 const drawproducts = (products: number[], page: number, limit: number): void => {
   let number = 0;
   const carthtml: Element | null = document.querySelector('.products__list');
@@ -258,14 +263,15 @@ const drawproducts = (products: number[], page: number, limit: number): void => 
     number++;
     if (carthtml) carthtml.innerHTML += template;
   }
+
   const targetProduct = document.querySelectorAll('.product__preview');
   targetProduct.forEach((el:Element, index:number) => {
     el.addEventListener('click', () => {
       urlRoute(products_in_cart[index].toString());
     });
   });
+//Product Quantity Input
   const productCount = document.querySelectorAll('.product__count');
-
   productCount.forEach((el:Element, index:number):void => {
     el.addEventListener('click', e => {
       const target = <HTMLElement>e.target;

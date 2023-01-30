@@ -2,13 +2,17 @@ import dataExample from '../assets/data-exapmle.json';
 import { Product } from './product-card';
 import { cart, drawCart, products_in_cart } from './cart-SPA';
 import { PopupPurchase } from './popup';
+
 const main: string | null = localStorage.getItem('mainc') ? localStorage.getItem('mainc') : '';
 const aboutstr: string | null = localStorage.getItem('aboutproducts') ? localStorage.getItem('aboutproducts') : '';
 let about: number[] = [];
+
 dataExample.products.forEach((el: Product, idx: number): void => {
   about.push(idx);
 });
+
 if (aboutstr) about = JSON.parse(aboutstr);
+//About Page Template
 export function createTemplate(product: Product): string {
   let imagesstr = '';
   product.images.forEach((el: string) => {
@@ -74,21 +78,28 @@ export function createTemplate(product: Product): string {
     </div>
   </div>
 </div>`;
+  addListener();
+  return template;
+}
+
+function addListener():void {
   const buyButton = document.querySelector('.buy__button');
   if (buyButton instanceof HTMLButtonElement) {
-    buyButton.addEventListener('click', () => {
+    buyButton.addEventListener('click', ():void => {
       let popup: PopupPurchase | null = null;
       popup = new PopupPurchase(maincontent);
       popup.togglePopup();
     });
   }
-  return template;
 }
+
 localStorage.setItem('aboutproducts', JSON.stringify(about));
+
 const urlRoutes = {
   '/': main,
   '/about': about,
 };
+
 const maincontent: HTMLElement | null = document.querySelector('main');
 maincontent?.addEventListener('click', (e: Event) => {
   const targetPicture = e.target;
@@ -97,14 +108,17 @@ maincontent?.addEventListener('click', (e: Event) => {
   }
   e.preventDefault();
   const src: string | null =
-    targetPicture instanceof HTMLElement && targetPicture ? targetPicture.getAttribute('src') : '0';
+  targetPicture instanceof HTMLElement && targetPicture ? targetPicture.getAttribute('src') : '0';
   const bigPicture: HTMLDivElement | null = document.querySelector('.about__images-big');
   if (bigPicture) bigPicture.innerHTML = `<img alt="Slide" src=${src}>`;
 });
+
+
 export const urlRoute = (itemsrc: string): void => {
   window.history.pushState({}, '', window.location.origin+`/online-store/#/about/${itemsrc}`);
   if (maincontent) maincontent.innerHTML = createTemplate(dataExample.products[itemsrc]);
 };
+//Routing
 const parseLocation = (): string => location.hash.slice(1).toLowerCase() || '/';
 const processLocation = (location: string): void => {
   if (location === '/') {
@@ -120,6 +134,7 @@ const processLocation = (location: string): void => {
     drawCart(products_in_cart);
   }
 };
+//Backwards-Forward functionality
 window.onpopstate = (): void => {
   const location: string = parseLocation();
   if (location[location.length-1] === '/') {

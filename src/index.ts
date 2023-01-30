@@ -140,11 +140,11 @@ class App {
     //checkbox-filters
     const checkbox = new Checkbox();
     if (this.filterold) {
-      checkbox.drawcheckboxCategories(this.filterold.split('.'));
-      checkbox.drawcheckboxBrand(this.filterold.split('.'));
+      checkbox.DrawCheckboxFilters(this.filterold.split('.'),"category");
+      checkbox.DrawCheckboxFilters(this.filterold.split('.'),"brand");
     } else {
-      checkbox.drawcheckboxCategories([]);
-      checkbox.drawcheckboxBrand([]);
+      checkbox.DrawCheckboxFilters([],"category");
+      checkbox.DrawCheckboxFilters([],"brand");
     }
     checkbox.filteredValue(this.filteredProducts);
     const viewChanger = document.querySelector('#view-change');
