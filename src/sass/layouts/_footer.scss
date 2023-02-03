@@ -1,0 +1,63 @@
+.footer {
+    width: 100%;
+    padding: 10px 0;
+    background-color: black;
+  }
+  
+  .footer__container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .footer .copyright {
+    font-size: 14px;
+    color: white;
+    text-align: center;
+  }
+  
+  .footer .copyright a {
+    color: white;
+  }
+  
+  .footer .copyright a:hover {
+    color: yellow;
+  }
+  
+  .footer .copyright:before {
+    content: '©';
+  }
+  
+  .footer__info {
+    display: flex;
+    gap: 20px;
+    align-items: end;
+    margin-left: 20%;
+  }
+  
+  .footer__info span {
+    font-size: 24px;
+  }
+  
+  .footer__link {
+    font-size: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .footer__link:hover {
+    filter: brightness(0.6);
+  }
+  
+  .footer__link:first-child,
+  .footer__link:nth-child(2) {
+    width: 50px;
+    background-image: url(../assets/github.svg);
+  }
+  
+  .footer__link:nth-child(3) {
+    width: 134px;
+    background-image: url(../assets/rs-logo.svg);
+  }

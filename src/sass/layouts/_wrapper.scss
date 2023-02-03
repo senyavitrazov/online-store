@@ -1,0 +1,9 @@
+.wrapper {
+  max-width: $content-width;
+  margin: auto;
+}
+
+.main__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
