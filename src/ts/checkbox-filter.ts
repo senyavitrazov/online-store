@@ -20,7 +20,7 @@ export class Checkbox {
 
   checkFilters(arr: string[]):void {
     arr.forEach(el => {
-      const thisInput = document.getElementById(`${el}`);
+      const thisInput:HTMLElement|null = document.getElementById(`${el}`);
       if (thisInput instanceof HTMLInputElement) {
         thisInput.checked = true;
       }
