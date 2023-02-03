@@ -134,8 +134,8 @@ const processLocation = (location: string): void => {
     drawCart(products_in_cart);
   }
 };
-//Backwards-Forward functionality
-window.onpopstate = (): void => {
+
+window.addEventListener('popstate',(): void => {
   const location: string = parseLocation();
   if (location[location.length-1] === '/') {
     console.log('hi')
@@ -143,7 +143,7 @@ window.onpopstate = (): void => {
     urlRoutes['/'] ? (window.location.href = window.location.href.replace(window.location.search,'').slice(0,window.location.href.length-1)) : window.location.href;
   }
   processLocation(location);
-};
+})
 window.addEventListener('DOMContentLoaded', () => {
   processLocation(parseLocation());
 });

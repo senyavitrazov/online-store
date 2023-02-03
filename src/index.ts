@@ -26,6 +26,7 @@ class App {
   drawCards() {
     const params = new URLSearchParams(window.location.search);
     this.filteredProducts = dataExample.products;
+
     for (const [key, value] of params.entries()) {
       if (key === 'dsp' && value !== '') {
         const left = +value.slice(0, value.indexOf('t'));
@@ -147,6 +148,7 @@ class App {
       checkbox.DrawCheckboxFilters([],"brand");
     }
     checkbox.filteredValue(this.filteredProducts);
+
     const viewChanger = document.querySelector('#view-change');
     if (viewChanger) {
       if (params.has('view')) {
@@ -166,6 +168,7 @@ class App {
         window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
       });
     }
+
     const copyFilterButton = document.querySelector('#copy-filters');
     if (copyFilterButton) {
       copyFilterButton.addEventListener('click', () => {
@@ -178,6 +181,7 @@ class App {
         }, 1000);
       });
     }
+
     if (this.main) this.mainWithInner = this.main.cloneNode(true);
     document.querySelector('#clear-filters')?.addEventListener('click', () => {
       window.history.pushState(null, '', window.location.pathname + '?dsp=10t1749&dsa=2t150&sort=00');

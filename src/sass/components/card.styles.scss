@@ -1,5 +1,5 @@
-@import "../abstracts/placeholders";
-@import "../abstracts/mixins";
+@import '../abstracts/placeholders';
+@import '../abstracts/mixins';
 
 .product-card {
   &__image-container {
@@ -19,7 +19,7 @@
   &__info {
     padding-left: 10px;
     ul {
-      padding:  0px;
+      padding: 0px;
     }
   }
 
@@ -62,13 +62,13 @@
     border-radius: 50%;
     background: black;
     color: white;
-    text-transform:uppercase;
-    
+    text-transform: uppercase;
+
     font-size: 3.4rem;
     font-weight: 100;
 
     cursor: pointer;
-    transition: all .2s;
+    transition: all 0.2s;
     &:hover {
       background: white;
       color: black;
@@ -89,27 +89,27 @@
 }
 
 .product-card.little {
-    scale: 0.9;
+  scale: 0.9;
 
-		.product-card__info {
-      padding-left: 0;
-      display: flex;
-      flex-direction: column-reverse;
-      position: relative;
-		}
+  .product-card__info {
+    padding-left: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+  }
 
-		.product-card__name {
-      margin: 0;
-      position: absolute;
-      top: -90%;
-      text-align: left;
-      display: block;
-      width: 100%;
-      background: white;
-      padding: 10px 0;
-		}
+  .product-card__name {
+    margin: 0;
+    position: absolute;
+    top: -90%;
+    text-align: left;
+    display: block;
+    width: 100%;
+    background: white;
+    padding: 10px 0;
+  }
 
-		.product-card__description {
-      display: none;
-		}
+  .product-card__description {
+    display: none;
+  }
 }

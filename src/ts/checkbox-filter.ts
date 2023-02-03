@@ -5,7 +5,7 @@ export class Checkbox {
   params = new URLSearchParams(window.location.search);
   filterold: string | null = this.params.get('filters') ? this.params.get('filters') : null;
   items: Array<Product> = dataExample.products;
-  //Drawing Filters
+
   DrawCheckboxFilters(filterinput: string[], typeofFilter: string): void {
     const categories: Set<string> = new Set();
     typeofFilter === 'category'
@@ -59,15 +59,15 @@ export class Checkbox {
     if (checkboxElement) checkboxElement.innerHTML = '';
     checkboxElement?.appendChild(fragment);
   }
-//Update Querry string
+
   changeUrl(filterargs: string[]): void {
-    const params = new URLSearchParams(window.location.search);
+    const params:URLSearchParams = new URLSearchParams(window.location.search);
 
     if (this.filterold) {
-      let temp = this.filterold.includes('.') ? this.filterold.split('.') : [this.filterold];
+      let temp:string[] = this.filterold.includes('.') ? this.filterold.split('.') : [this.filterold];
       temp = temp.filter(el => !filterargs.includes(el));
 
-      let filternew = filterargs.join('.') + '.' + temp.join('.');
+      let filternew:string = filterargs.join('.') + '.' + temp.join('.');
 
       filternew = filternew[filternew.length - 1] === '.' ? filternew.slice(0, filternew.length - 1) : filternew;
 
@@ -78,9 +78,9 @@ export class Checkbox {
 
     window.history.pushState(null, '', window.location.pathname + '?' + params.toString());
   }
-  //Update Product quantty found
+
   filteredValue(productsData: Product[]): void {
-    const filteredvalues = document.querySelectorAll('.filtered-value');
+    const filteredvalues:NodeListOf<Element> = document.querySelectorAll('.filtered-value');
     filteredvalues.forEach(el => (el.innerHTML = '0'));
     productsData.map(el => {
       const filtervaluebrand: Element | null | undefined = document.getElementById(`filtered-value-for-${el.brand}`);
@@ -91,7 +91,7 @@ export class Checkbox {
       if (filtervaluecategory) filtervaluecategory.innerHTML = (parseInt(filtervaluecategory.innerHTML) + 1).toString();
     });
   }
-  //Filter itself
+
   filterProdducts(filterinput: string[], productsinput: Product[]): Product[] {
     let productsData: Product[] =
       filterinput.length === 0

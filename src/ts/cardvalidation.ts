@@ -19,7 +19,7 @@ export const inputCardNumber = function (input: HTMLInputElement) {
       pos = start + char.length;
     }
 
-    let d = 0; // digit count
+    let digitCount = 0; // digit count
     let gi = 0; // group index
     let newV = '';
     const groups = /^\D*3[47]/.test(value) // check for American Express
@@ -32,18 +32,18 @@ export const inputCardNumber = function (input: HTMLInputElement) {
           pos--;
         }
       } else {
-        if (d === groups[gi]) {
+        if (digitCount === groups[gi]) {
           newV += separator;
-          d = 0;
+          digitCount = 0;
           gi++;
           if (start >= i) {
             pos++;
           }
         }
         newV += value[i];
-        d++;
+        digitCount++;
       }
-      if (d === groups[gi] && groups.length === gi + 1) {
+      if (digitCount === groups[gi] && groups.length === gi + 1) {
         break;
       }
     }

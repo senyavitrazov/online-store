@@ -41,7 +41,6 @@
 }
 
 .input {
-
   &__group {
     margin-bottom: 20px;
   }
@@ -49,7 +48,8 @@
   &__box {
     position: relative;
 
-    input, select {
+    input,
+    select {
       border: solid 1px $color-light-gray;
       &.err {
         border: solid 1px red;
@@ -60,19 +60,19 @@
       font-size: 18px;
       text-indent: 15px;
       padding: 0 10px 0 40px;
-    
+
       &::placeholder {
-          color: $color-light-gray;
+        color: $color-light-gray;
       }
       &:focus::placeholder {
-          color:transparent;
-          transition: color 0.3s ease;
+        color: transparent;
+        transition: color 0.3s ease;
       }
     }
     &::before {
       position: absolute;
       z-index: 50;
-      content: "";
+      content: '';
       background-size: 70%;
       background-repeat: no-repeat;
       height: 30px;
@@ -80,7 +80,7 @@
       display: inline-block;
       vertical-align: middle;
     }
-    
+
     &::after {
       position: absolute;
       content: attr(data-value);
@@ -93,34 +93,36 @@
   }
 
   &__rightside {
-    border: solid 1px black; 
+    border: solid 1px black;
     height: 663px;
     width: 530px;
     padding: 27px 30px;
-
   }
 }
 
-#input-tel, #input-address, #input-name, #input-email {
+#input-tel,
+#input-address,
+#input-name,
+#input-email {
   width: 400px;
 }
 
-#input-tel::before { 
+#input-tel::before {
   background-image: url('https://cdn1.iconfinder.com/data/icons/material-communication/18/phone-512.png');
   margin: 12px 13px;
 }
 
-#input-address::before { 
+#input-address::before {
   background-image: url('https://icon-library.com/images/icon-for-address/icon-for-address-2.jpg');
   background-size: 55%;
   margin: 11px 14px;
 }
-#input-name::before { 
+#input-name::before {
   background-image: url('https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png');
   background-size: 85%;
   margin: 10px 10px;
 }
-#input-email::before { 
+#input-email::before {
   background-image: url('https://www.svgrepo.com/show/72126/email.svg');
   background-size: 75%;
   margin: 11px 13px;
@@ -148,30 +150,31 @@
     height: 30px;
     scale: 0.9;
   }
-  &__back, &__front {
+  &__back,
+  &__front {
     width: 360px;
     height: 210px;
     position: absolute;
   }
   &__front {
-      background: #BCBCBC;
-      padding: 10px 20px;
-      top: 0;
-      left: 0;
-      z-index: 1;
+    background: #bcbcbc;
+    padding: 10px 20px;
+    top: 0;
+    left: 0;
+    z-index: 1;
   }
   &__back {
-      background: #939393;
-      left: 110px;
-      top: 30px;
-      z-index: -10;
+    background: #939393;
+    left: 110px;
+    top: 30px;
+    z-index: -10;
   }
   &__magnet {
-      position: absolute;
-      top: 25px;
-      height: 45px;
-      width: 360px;
-      background: #161615;
+    position: absolute;
+    top: 25px;
+    height: 45px;
+    width: 360px;
+    background: #161615;
   }
 
   input {
@@ -180,8 +183,9 @@
     padding: 0;
   }
 
-
-  #cardnumber-box, #expirationdate-box, #cardholdername-box {
+  #cardnumber-box,
+  #expirationdate-box,
+  #cardholdername-box {
     &::after {
       position: absolute;
       content: attr(data-value);
@@ -191,63 +195,63 @@
       text-align: right;
       padding-right: 35px;
       transform: translateX(-100%);
-    } 
+    }
   }
   #cardnumber-box {
-      input {
-          width: 215px;
-      }
+    input {
+      width: 215px;
+    }
   }
   #expirationdate-box {
     div {
-        display: flex;
-        justify-content: space-between;
-        width: 215px;
-      }
-      input {
-          width: 100px;
-      }
+      display: flex;
+      justify-content: space-between;
+      width: 215px;
+    }
+    input {
+      width: 100px;
+    }
   }
   #cardholdername-box {
-      input {
-          width: 320px;
-      }
+    input {
+      width: 320px;
+    }
   }
   #cvccvv-box {
-      display: flex;
-      position: absolute;
-      right: -88px;
-      bottom: -22px;
-      label {
-          text-align: center;
-      }
-      input {
-          width: 75px;
-          z-index: 11;
-      }
-      p {
-          margin: 6px 0 0 10px;
-          font-weight: normal;
-          font-size: 10px;
-          line-height: 12px;
-          color: #161615;
-      }
-      &::after {
-        min-width: 200px;
-        right: 0;
-        top: calc(50% - 22px);
-        padding-left: 35px;
-        transform: translateX(100%);
-      } 
+    display: flex;
+    position: absolute;
+    right: -88px;
+    bottom: -22px;
+    label {
+      text-align: center;
+    }
+    input {
+      width: 75px;
+      z-index: 11;
+    }
+    p {
+      margin: 6px 0 0 10px;
+      font-weight: normal;
+      font-size: 10px;
+      line-height: 12px;
+      color: #161615;
+    }
+    &::after {
+      min-width: 200px;
+      right: 0;
+      top: calc(50% - 22px);
+      padding-left: 35px;
+      transform: translateX(100%);
+    }
   }
 
   .input {
-      &__box {
-          display: flex;
-          flex-direction: column;
-      }
+    &__box {
+      display: flex;
+      flex-direction: column;
+    }
   }
-  
+
   label {
     font-style: normal;
     font-weight: normal;
@@ -263,7 +267,7 @@
   color: white;
   border-radius: 0.3rem;
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
   margin: 70% 0;
   text-transform: uppercase;
   &:hover {
@@ -271,7 +275,6 @@
     background: $color-yellow;
   }
 }
-
 
 .popup__close {
   user-select: none;
@@ -282,7 +285,6 @@
   height: 20px;
   cursor: pointer;
 }
-
 
 #popup-success {
   position: absolute;
@@ -297,5 +299,4 @@
   align-items: center;
   justify-content: center;
   z-index: 999;
-
 }

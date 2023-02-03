@@ -1,17 +1,11 @@
 @import "./base/reset";
-
 @import "./abstracts/constants";
 @import "./abstracts/placeholders";
 @import "./abstracts/mixins";
-
 @import "./base/base";
 @import "./base/logo";
-
 @import "./components/product-list";
 @import "./components/search-sort";
-
-
-
 @import "./layouts/popup";
 @import "./layouts/header";
 @import "./layouts/wrapper";

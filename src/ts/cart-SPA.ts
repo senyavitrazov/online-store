@@ -2,7 +2,7 @@ import { Product } from './product-card';
 import dataExample from '../assets/data-exapmle.json';
 import { urlRoute } from './about-SPA';
 import { PopupPurchase } from './popup';
-//Cart Template
+ 
 export const cart = `<div class="cart__main">
 <div class="cart__products">
   <div class="products__title-and-controls">
@@ -44,7 +44,7 @@ const totalstr: string | null = localStorage.getItem('totalproducts') ? localSto
 const total_in_cart: number[] = totalstr ? JSON.parse(totalstr) : new Array(products_in_cart.length).fill(1);
 if (productstr) products_in_cart = JSON.parse(productstr);
 let discount = 0;
-const maincontent:HTMLElement|null = document.querySelector('main');
+const mainContainer:HTMLElement|null = document.querySelector('main');
 
 document.addEventListener('click', (e: Event):void => {
   const target = <HTMLElement>e.target;
@@ -52,7 +52,7 @@ document.addEventListener('click', (e: Event):void => {
     return;
   }
   e.preventDefault();
-  if (maincontent) maincontent.innerHTML = cart;
+  if (mainContainer) mainContainer.innerHTML = cart;
 
   window.history.pushState({}, '', window.location.origin+"/online-store/#/cart");
 
@@ -79,7 +79,7 @@ export const updateTotal = () :void => {
   }
 };
 updateTotal();
-//Update Cart on Product add
+ 
 export const updateCart = (number: number) : void => {
 
   if (products_in_cart.includes(number)) {
@@ -97,7 +97,7 @@ export const updateCart = (number: number) : void => {
   updateTotal();
 };
 
-maincontent?.addEventListener('click', (e: Event):void => {
+mainContainer?.addEventListener('click', (e: Event):void => {
   const targetButton = e.target;
   if (targetButton instanceof HTMLElement && targetButton && !targetButton.matches('.add__button')) {
     return;
@@ -219,16 +219,17 @@ function addPromoListeners(promos:string[]):void {
       });
     }
   });
+  
   const buyButton = document.getElementById('cart__buy-btn')
   if(buyButton instanceof HTMLButtonElement){
     buyButton.addEventListener('click',()=>{
       let popup: PopupPurchase | null = null;
-      popup = new PopupPurchase(maincontent);
+      popup = new PopupPurchase(mainContainer);
      popup.togglePopup();
     })
   }
 }
-//Cart Product Template
+ 
 const drawproducts = (products: number[], page: number, limit: number): void => {
   let number = 0;
   const carthtml: Element | null = document.querySelector('.products__list');
@@ -270,7 +271,7 @@ const drawproducts = (products: number[], page: number, limit: number): void => 
       urlRoute(products_in_cart[index].toString());
     });
   });
-//Product Quantity Input
+ 
   const productCount = document.querySelectorAll('.product__count');
   productCount.forEach((el:Element, index:number):void => {
     el.addEventListener('click', e => {
